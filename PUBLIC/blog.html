@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L'Observatoire — Blog Swayup studio</title>
+  <meta name="description" content="L'Observatoire — insights sur le web, le design et le GEO par Swayup studio. Conseils concrets pour PMEs et indépendants." />
+  <link rel="stylesheet" href="https://use.typekit.net/zwv0tfr.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-wrapper">
+
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo"><img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+    <div class="navbar__nav">
+      <a href="index.html">Accueil</a>
+      <div class="nav-dropdown-wrapper">
+        <button class="navbar__dropdown-trigger">Services &amp; Tarifs <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown__col"><h5>Site Web</h5><a href="site-vitrine.html">🖥 Site Vitrine</a><a href="site-dynamique.html">Site Dynamique</a><a href="site-ecommerce.html">🛒 E-commerce</a><a href="referencement-seo.html">🔍 Référencement SEO</a><a href="referencement-geo.html">🤖 GEO <span class="badge">Nouveau</span></a></div>
+          <div class="nav-dropdown__col"><h5>Graphisme</h5><a href="logo.html">Logo</a><a href="graphisme.html">🎨 Identité visuelle</a><a href="graphisme.html#reseaux">📱 Réseaux sociaux</a><a href="support-catalogue.html">🖨 Supports physiques <span class="badge">Catalogue</span></a></div>
+        </div>
+      </div>
+      <a href="kit-gratuit.html">Kit Gratuit</a>
+      <a href="galerie.html">Galerie</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <div class="navbar__right"><a href="contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
+    <button class="navbar__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar__mobile">
+  <a href="index.html">Accueil</a>
+  <button class="mobile-services-toggle" style="text-align:left;font-size:1.2rem;font-weight:500;padding:14px 0;border-bottom:1px solid #f0f0f0;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;">Services &amp; Tarifs ▾</button>
+  <div class="mobile-subnav" style="display:none;padding-left:16px;"><a href="site-vitrine.html">Site Vitrine</a><a href="site-dynamique.html">Site Dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a><a href="logo.html">Logo</a><a href="graphisme.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a></div>
+  <a href="kit-gratuit.html">Kit Gratuit</a><a href="galerie.html">Galerie</a><a href="blog.html">Blog</a><a href="contact.html">Nous contacter</a>
+</div>
+
+<main>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="label" style="margin-bottom:16px;">L'Observatoire</p>
+    <h1>Insights sur le web,<br/>le design et le GEO</h1>
+    <p class="lead" style="color:rgba(251,251,251,0.7);margin-top:20px;max-width:600px;">Des conseils concrets, sans jargon, pour que votre présence en ligne travaille vraiment pour vous. Par l'équipe Swayup studio.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Articles chargés depuis Sanity -->
+    <div id="blog-grid" class="grid-3">
+      <article class="blog-card">
+        <div class="blog-card__placeholder">Article en cours de chargement...</div>
+        <div class="blog-card__body">
+          <time>Bientôt disponible</time>
+          <h3>Les articles se chargent depuis Sanity</h3>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card__placeholder">Article en cours de chargement...</div>
+        <div class="blog-card__body">
+          <time>Bientôt disponible</time>
+          <h3>Prochains articles en préparation</h3>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card__placeholder">Article en cours de chargement...</div>
+        <div class="blog-card__body">
+          <time>Bientôt disponible</time>
+          <h3>L'Observatoire — Swayup studio</h3>
+        </div>
+      </article>
+    </div>
+
+    <div style="text-align:center;margin-top:64px;padding:48px;background:var(--noir);border-radius:var(--radius-card);position:relative;overflow:hidden;" class="reveal">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,124,54,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,124,54,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <p class="label" style="color:var(--orange);margin-bottom:12px;">Newsletter L'Observatoire</p>
+        <h2 style="color:var(--fond);margin-bottom:16px;font-size:clamp(1.6rem,3vw,2.4rem);">Restez informé des dernières tendances</h2>
+        <p style="color:rgba(251,251,251,0.65);max-width:500px;margin-inline:auto;margin-bottom:28px;">GEO, SEO, design de marque — recevez nos insights directement dans votre boîte mail. Sans spam, sans jargon.</p>
+        <form style="display:flex;gap:12px;max-width:420px;margin-inline:auto;" data-webhook="https://webhook-placeholder.example.com/newsletter">
+          <input type="email" name="email" required placeholder="votre@email.com" style="flex:1;padding:14px 18px;border:1px solid rgba(255,255,255,0.2);border-radius:999px;background:rgba(255,255,255,0.08);color:var(--fond);font-size:0.95rem;outline:none;" />
+          <button type="submit" class="btn btn-cta1">S'inscrire</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__main">
+      <div class="footer__brand"><img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /><p>Studio créatif anti-agence pour PMEs et indépendants. Web, Graphisme, GEO.</p><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm" style="margin-top:16px;">Kit Gratuit</a></div>
+      <div class="footer__col"><h5>Web</h5><a href="site-vitrine.html">Site Vitrine</a><a href="site-dynamique.html">Site Dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">Référencement SEO</a><a href="referencement-geo.html">GEO — Optimisation IA</a></div>
+      <div class="footer__col"><h5>Graphisme</h5><a href="logo.html">Création de logo</a><a href="graphisme.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a></div>
+      <div class="footer__col"><h5>Contact</h5><div class="footer__contact-item"><span class="icon">📞</span> +32 XXX XX XX XX</div><div class="footer__contact-item">hello@swayupstudio.be</div><div class="footer__contact-item"><span class="icon">📍</span> Bruxelles, Belgique</div></div>
+    </div>
+    <div class="footer__bottom"><p>© 2025 Swayup studio. Tous droits réservés.</p><div style="display:flex;gap:24px;"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="contact.html">Contact</a></div></div>
+  </div>
+</footer>
+<script src="js/gsap.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/sanity.js"></script>
+</body>
+</html>

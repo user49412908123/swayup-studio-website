@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(svg|png|otf\\)$\")",
+      "Bash(wc:)",
+      "Bash(find '/c/Users/HP_Gaming/Desktop/SWAY UP/swayup-studio/SITEWEB' -not -path */node_modules/* -not -path */.git/* -type f)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Read(//c/Users/HP_Gaming/Desktop/SWAY UP/swayup-studio/SITEWEB/**)",
+      "Bash(echo \"OK: $f\")",
+      "Bash(done)",
+      "Bash(python3 -c \"print\\(''ok''\\)\")",
+      "Bash(cmd /c \"node -e \\\\\"console.log\\('test'\\)\\\\\" \")",
+      "Bash(cmd /c \"echo test\")",
+      "Bash(grep -rn \"SwayUp\\\\|SwayUp Studio\\\\|🖥\\\\|⚙️\\\\|🛒\\\\|🔍\\\\|🤖\\\\|✏️\\\\|🎨\\\\|📞\\\\|✉️\\\\|📍\\\\|💶\\\\|🚫\\\\|✅\\\\|btn-lg\" '/c/Users/HP_Gaming/Desktop/SWAY UP/swayup-studio/SITEWEB/PUBLIC/' --include=*.html -l)"
+    ]
+  }
+}

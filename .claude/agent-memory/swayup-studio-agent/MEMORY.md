@@ -1,0 +1,1 @@
+- [SwayUp Studio website build](project_website.md) — 13 HTML pages + CSS/JS built in PUBLIC/. Vanilla stack, GSAP local, Sanity for portfolio/blog, blueprint grid DA.
