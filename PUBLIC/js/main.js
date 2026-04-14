@@ -180,6 +180,16 @@
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
+    const designNodes = [
+      { x: 0.14, y: 0.26, r: 8, phase: 0.0 },
+      { x: 0.36, y: 0.22, r: 7, phase: 0.9 },
+      { x: 0.62, y: 0.25, r: 8, phase: 1.8 },
+      { x: 0.84, y: 0.3, r: 6, phase: 2.7 },
+      { x: 0.26, y: 0.62, r: 7, phase: 1.3 },
+      { x: 0.5, y: 0.68, r: 9, phase: 2.2 },
+      { x: 0.76, y: 0.62, r: 7, phase: 3.0 },
+    ];
+
     function resize() {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -187,59 +197,109 @@
     resize();
     window.addEventListener("resize", resize);
 
-    const lines = [];
-    const LINE_COUNT = 6;
-
-    for (let i = 0; i < LINE_COUNT; i++) {
-      lines.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        angle: Math.random() * Math.PI * 2,
-        speed: 0.2 + Math.random() * 0.4,
-        length: 60 + Math.random() * 120,
-        alpha: 0.1 + Math.random() * 0.15,
-      });
-    }
-
     let raf;
+    let tick = 0;
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      tick += 0.012;
 
       // Grid
-      ctx.strokeStyle = "rgba(255,124,54,0.06)";
+      ctx.strokeStyle = "rgba(255,124,54,0.045)";
       ctx.lineWidth = 1;
-      const size = 60;
+      const size = 64;
       for (let x = 0; x < canvas.width; x += size) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
       }
       for (let y = 0; y < canvas.height; y += size) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
       }
 
-      // Animated crosshairs
-      lines.forEach((line) => {
-        line.x += Math.cos(line.angle) * line.speed;
-        line.y += Math.sin(line.angle) * line.speed;
-        if (line.x < 0) line.x = canvas.width;
-        if (line.x > canvas.width) line.x = 0;
-        if (line.y < 0) line.y = canvas.height;
-        if (line.y > canvas.height) line.y = 0;
-
-        ctx.strokeStyle = `rgba(255,124,54,${line.alpha})`;
-        ctx.lineWidth = 1.5;
+      // Technical guide lines
+      ctx.setLineDash([6, 8]);
+      ctx.strokeStyle = "rgba(255,124,54,0.12)";
+      ctx.lineWidth = 1;
+      [0.24, 0.5, 0.74].forEach((ratio) => {
+        const y = canvas.height * ratio;
         ctx.beginPath();
-        ctx.moveTo(line.x - line.length / 2, line.y);
-        ctx.lineTo(line.x + line.length / 2, line.y);
+        ctx.moveTo(canvas.width * 0.08, y);
+        ctx.lineTo(canvas.width * 0.92, y);
         ctx.stroke();
+      });
+      ctx.setLineDash([]);
+
+      // Node network
+      const points = designNodes.map((node, idx) => {
+        const pulse = Math.sin(tick * 1.4 + node.phase) * 5;
+        const driftX = Math.cos(tick + idx * 0.6) * 3;
+        const driftY = Math.sin(tick * 0.9 + idx * 0.8) * 3;
+        return {
+          x: node.x * canvas.width + driftX,
+          y: node.y * canvas.height + driftY,
+          r: node.r + pulse * 0.12,
+          a: 0.16 + (Math.sin(tick * 1.6 + node.phase) + 1) * 0.08,
+        };
+      });
+
+      ctx.strokeStyle = "rgba(255,124,54,0.2)";
+      ctx.lineWidth = 1.2;
+      for (let i = 0; i < points.length - 1; i++) {
         ctx.beginPath();
-        ctx.moveTo(line.x, line.y - line.length / 2);
-        ctx.lineTo(line.x, line.y + line.length / 2);
+        ctx.moveTo(points[i].x, points[i].y);
+        ctx.lineTo(points[i + 1].x, points[i + 1].y);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      ctx.lineTo(points[4].x, points[4].y);
+      ctx.lineTo(points[6].x, points[6].y);
+      ctx.stroke();
+
+      points.forEach((p) => {
+        ctx.strokeStyle = `rgba(255,124,54,${p.a})`;
+        ctx.fillStyle = "rgba(255,124,54,0.08)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r + 7, 0, Math.PI * 2);
+        ctx.fill();
         ctx.stroke();
 
-        // Small circle
         ctx.beginPath();
-        ctx.arc(line.x, line.y, 3, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255,124,54,${line.alpha * 2})`;
+        ctx.arc(p.x, p.y, 2.3, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,124,54,0.55)";
+        ctx.fill();
+      });
+
+      // Measurement sweep lines
+      const scanX = (tick * 90) % canvas.width;
+      const scanY = (tick * 55) % canvas.height;
+      ctx.strokeStyle = "rgba(255,124,54,0.14)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(scanX, 0);
+      ctx.lineTo(scanX, canvas.height);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, scanY);
+      ctx.lineTo(canvas.width, scanY);
+      ctx.stroke();
+
+      // Orbit markers
+      points.slice(1, 6).forEach((p, idx) => {
+        const orbitR = 16 + idx * 2;
+        const ox = p.x + Math.cos(tick * 1.3 + idx) * orbitR;
+        const oy = p.y + Math.sin(tick * 1.3 + idx) * orbitR;
+        ctx.fillStyle = "rgba(255,124,54,0.32)";
+        ctx.beginPath();
+        ctx.arc(ox, oy, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255,124,54,0.1)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, orbitR, 0, Math.PI * 2);
         ctx.stroke();
       });
 
@@ -326,14 +386,19 @@
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = parseFloat(el.dataset.count);
+        const prefix = el.dataset.prefix || "";
         const suffix = el.dataset.suffix || "";
+        const forcedDecimals = Number.isFinite(parseInt(el.dataset.decimals, 10))
+          ? parseInt(el.dataset.decimals, 10)
+          : null;
         const duration = 1500;
         const step = (target / duration) * 16;
         let current = 0;
 
         const timer = setInterval(() => {
           current = Math.min(current + step, target);
-          el.textContent = (Number.isInteger(target) ? Math.round(current) : current.toFixed(1)) + suffix;
+          const decimals = forcedDecimals !== null ? forcedDecimals : Number.isInteger(target) ? 0 : 1;
+          el.textContent = prefix + (decimals ? current.toFixed(decimals) : Math.round(current)) + suffix;
           if (current >= target) clearInterval(timer);
         }, 16);
 
@@ -347,12 +412,16 @@
   /* ---------- SMOOTH MARQUEE (JS fallback) ---------- */
   function initMarquees() {
     // The CSS animation handles most marquees
-    // Duplicate content for seamless loop
+    // Duplicate items inside the same track to keep one visual row
     document.querySelectorAll(".banderole__track, .reviews-track").forEach((track) => {
       if (track.dataset.duplicated) return;
       track.dataset.duplicated = "1";
-      const clone = track.cloneNode(true);
-      track.parentElement.appendChild(clone);
+      const items = Array.from(track.children);
+      items.forEach((item) => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        track.appendChild(clone);
+      });
     });
   }
 
