@@ -12,7 +12,10 @@
       "Bash(python3 -c \"print\\(''ok''\\)\")",
       "Bash(cmd /c \"node -e \\\\\"console.log\\('test'\\)\\\\\" \")",
       "Bash(cmd /c \"echo test\")",
-      "Bash(grep -rn \"SwayUp\\\\|SwayUp Studio\\\\|🖥\\\\|⚙️\\\\|🛒\\\\|🔍\\\\|🤖\\\\|✏️\\\\|🎨\\\\|📞\\\\|✉️\\\\|📍\\\\|💶\\\\|🚫\\\\|✅\\\\|btn-lg\" '/c/Users/HP_Gaming/Desktop/SWAY UP/swayup-studio/SITEWEB/PUBLIC/' --include=*.html -l)"
+      "Bash(grep -rn \"SwayUp\\\\|SwayUp Studio\\\\|🖥\\\\|⚙️\\\\|🛒\\\\|🔍\\\\|🤖\\\\|✏️\\\\|🎨\\\\|📞\\\\|✉️\\\\|📍\\\\|💶\\\\|🚫\\\\|✅\\\\|btn-lg\" '/c/Users/HP_Gaming/Desktop/SWAY UP/swayup-studio/SITEWEB/PUBLIC/' --include=*.html -l)",
+      "Bash(xxd)",
+      "Bash(python3 *)",
+      "PowerShell(python3 -c \"print\\('hello'\\)\" 2>&1; python -c \"print\\('hello'\\)\" 2>&1)"
     ]
   }
 }

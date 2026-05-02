@@ -6,6 +6,144 @@
 (function () {
   "use strict";
 
+  const NAVBAR_TEMPLATE = `
+<nav class="navbar" role="navigation">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo"><img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+    <div class="navbar__nav">
+      <a href="index.html">Accueil</a>
+      <div class="nav-dropdown-wrapper">
+        <button class="navbar__dropdown-trigger">Services <svg class="chevron" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown__col">
+            <a href="site-web.html">Site web</a>
+            <a href="identite-visuelle.html">Identité visuelle</a>
+            <a href="support-catalogue.html">Supports physiques</a>
+            <a href="tarifs.html">Tarifs</a>
+          </div>
+        </div>
+      </div>
+      <a href="kit-gratuit-de-l'arpenteur.html">Kit Gratuit de l'Arpenteur</a>
+      <a href="Réalisations.html">Réalisations</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="navbar__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar__mobile">
+  <a href="index.html">Accueil</a>
+  <button class="mobile-services-toggle" style="text-align:left;font-size:1.2rem;font-weight:500;padding:14px 0;border-bottom:1px solid #f0f0f0;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;">Services ▾</button>
+  <div class="mobile-subnav" style="display:none;padding-left:16px;">
+    <a href="site-web.html">Site web</a>
+    <a href="identite-visuelle.html">Identité visuelle</a>
+    <a href="support-catalogue.html">Supports physiques</a>
+    <a href="tarifs.html">Tarifs</a>
+  </div>
+  <a href="kit-gratuit-de-l'arpenteur.html">Kit Gratuit de l'Arpenteur</a>
+  <a href="Réalisations.html">Réalisations</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>`;
+
+  const FOOTER_TEMPLATE = `
+<footer class="footer">
+  <div class="container">
+    <div class="footer__main">
+      <div class="footer__brand">
+        <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" />
+        <p>Studio créatif anti-agence pour PMEs et indépendants. Web, Graphisme, GEO.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Navigation</h5>
+        <a href="index.html">Accueil</a>
+        <a href="Réalisations.html">Réalisations</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer__col">
+        <h5>Services</h5>
+        <a href="site-web.html">Site web</a>
+        <a href="identite-visuelle.html">Identité visuelle</a>
+        <a href="support-catalogue.html">Supports physiques</a>
+        <a href="tarifs.html">Tarifs</a>
+      </div>
+      <div class="footer__col">
+        <h5>Ressources</h5>
+        <a href="kit-gratuit-de-l'arpenteur.html">Kit Gratuit de l'Arpenteur</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Swayup studio. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>`;
+
+  const LINK_REWRITES = {
+    "kit-gratuit.html": "kit-gratuit-de-l'arpenteur.html",
+    "kit-gratuit-de-l%27arpenteur.html": "kit-gratuit-de-l'arpenteur.html",
+    "galerie.html": "Réalisations.html",
+    "realisations.html": "Réalisations.html",
+    "graphisme.html": "identite-visuelle.html",
+    "graphisme.html#reseaux": "identite-visuelle.html",
+    "logo.html": "identite-visuelle.html",
+    "site-vitrine.html": "site-web.html",
+    "site-dynamique.html": "site-web.html",
+    "site-ecommerce.html": "site-web.html",
+    "referencement-seo.html": "referencement.html",
+    "referencement-geo.html": "referencement.html",
+  };
+
+  function normalizeInterPageLinks() {
+    document.querySelectorAll("a[href]").forEach((link) => {
+      const href = (link.getAttribute("href") || "").trim();
+      if (
+        !href ||
+        href.startsWith("http") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("#")
+      )
+        return;
+      const normalizedHref = href.replace(/^\.\//, "");
+      const rewritten = LINK_REWRITES[normalizedHref];
+      if (rewritten) link.setAttribute("href", rewritten);
+    });
+  }
+
+  function injectGlobalLayout() {
+    const body = document.body;
+    if (!body) return;
+
+    const main = body.querySelector("main");
+    const nav = body.querySelector("nav.navbar");
+    const mobileNav = body.querySelector(".navbar__mobile");
+
+    if (nav) nav.remove();
+    if (mobileNav) mobileNav.remove();
+
+    if (main) {
+      main.insertAdjacentHTML("beforebegin", NAVBAR_TEMPLATE);
+    } else {
+      body.insertAdjacentHTML("afterbegin", NAVBAR_TEMPLATE);
+    }
+
+    const footer = body.querySelector("footer");
+    if (footer) {
+      footer.outerHTML = FOOTER_TEMPLATE;
+    } else {
+      const firstScript = body.querySelector("script");
+      if (firstScript) {
+        firstScript.insertAdjacentHTML("beforebegin", FOOTER_TEMPLATE);
+      } else {
+        body.insertAdjacentHTML("beforeend", FOOTER_TEMPLATE);
+      }
+    }
+
+    normalizeInterPageLinks();
+  }
+
   /* ---------- NAVBAR ---------- */
   function initNavbar() {
     const navbar = document.querySelector(".navbar");
@@ -13,7 +151,9 @@
     const mobileNav = document.querySelector(".navbar__mobile");
     const dropdownTrigger = document.querySelector(".navbar__dropdown-trigger");
     const dropdown = document.querySelector(".nav-dropdown");
-    const mobileServicesToggle = document.querySelector(".mobile-services-toggle");
+    const mobileServicesToggle = document.querySelector(
+      ".mobile-services-toggle",
+    );
     const mobileSubnav = document.querySelector(".mobile-subnav");
 
     if (!navbar) return;
@@ -30,7 +170,9 @@
       burger.addEventListener("click", () => {
         burger.classList.toggle("open");
         mobileNav.classList.toggle("open");
-        document.body.style.overflow = mobileNav.classList.contains("open") ? "hidden" : "";
+        document.body.style.overflow = mobileNav.classList.contains("open")
+          ? "hidden"
+          : "";
       });
     }
 
@@ -52,18 +194,22 @@
     // Mobile sub-menu toggle
     if (mobileServicesToggle && mobileSubnav) {
       mobileServicesToggle.addEventListener("click", () => {
-        mobileSubnav.style.display = mobileSubnav.style.display === "none" ? "block" : "none";
+        mobileSubnav.style.display =
+          mobileSubnav.style.display === "none" ? "block" : "none";
       });
     }
 
     // Active link
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
-    document.querySelectorAll(".navbar__nav a, .navbar__mobile a").forEach((link) => {
-      const href = link.getAttribute("href");
-      if (href && href.includes(currentPath)) {
-        link.classList.add("active");
-      }
-    });
+    const currentPath =
+      window.location.pathname.split("/").pop() || "index.html";
+    document
+      .querySelectorAll(".navbar__nav a, .navbar__mobile a")
+      .forEach((link) => {
+        const href = link.getAttribute("href");
+        if (href && href.includes(currentPath)) {
+          link.classList.add("active");
+        }
+      });
   }
 
   /* ---------- FAQ ACCORDION ---------- */
@@ -101,7 +247,7 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
     );
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
@@ -118,14 +264,16 @@
         tab.classList.add("active");
 
         const cat = tab.dataset.filter;
-        document.querySelectorAll(".portfolio-card, .filter-item").forEach((card) => {
-          const cardCat = card.dataset.category;
-          if (cat === "all" || !cat || cardCat === cat || !cardCat) {
-            card.style.display = "";
-          } else {
-            card.style.display = "none";
-          }
-        });
+        document
+          .querySelectorAll(".portfolio-card, .filter-item")
+          .forEach((card) => {
+            const cardCat = card.dataset.category;
+            if (cat === "all" || !cat || cardCat === cat || !cardCat) {
+              card.style.display = "";
+            } else {
+              card.style.display = "none";
+            }
+          });
       });
     });
   }
@@ -338,12 +486,18 @@
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       if (heroLabel) tl.from(heroLabel, { opacity: 0, y: 20, duration: 0.6 });
       tl.from(heroTitle, { opacity: 0, y: 40, duration: 0.9 }, "-=0.3");
-      if (heroDesc) tl.from(heroDesc, { opacity: 0, y: 30, duration: 0.7 }, "-=0.5");
-      if (heroCtas) tl.from(heroCtas, { opacity: 0, y: 20, duration: 0.6 }, "-=0.4");
+      if (heroDesc)
+        tl.from(heroDesc, { opacity: 0, y: 30, duration: 0.7 }, "-=0.5");
+      if (heroCtas)
+        tl.from(heroCtas, { opacity: 0, y: 20, duration: 0.6 }, "-=0.4");
 
       const arpenteur = document.querySelector(".hero__arpenteur");
       if (arpenteur) {
-        tl.from(arpenteur, { opacity: 0, x: 60, duration: 1.0, ease: "power3.out" }, "-=1.2");
+        tl.from(
+          arpenteur,
+          { opacity: 0, x: 60, duration: 1.0, ease: "power3.out" },
+          "-=1.2",
+        );
       }
     }
 
@@ -381,30 +535,43 @@
     const counters = document.querySelectorAll(".stat-item__value[data-count]");
     if (!counters.length) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = parseFloat(el.dataset.count);
-        const prefix = el.dataset.prefix || "";
-        const suffix = el.dataset.suffix || "";
-        const forcedDecimals = Number.isFinite(parseInt(el.dataset.decimals, 10))
-          ? parseInt(el.dataset.decimals, 10)
-          : null;
-        const duration = 1500;
-        const step = (target / duration) * 16;
-        let current = 0;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = parseFloat(el.dataset.count);
+          const prefix = el.dataset.prefix || "";
+          const suffix = el.dataset.suffix || "";
+          const forcedDecimals = Number.isFinite(
+            parseInt(el.dataset.decimals, 10),
+          )
+            ? parseInt(el.dataset.decimals, 10)
+            : null;
+          const duration = 1500;
+          const step = (target / duration) * 16;
+          let current = 0;
 
-        const timer = setInterval(() => {
-          current = Math.min(current + step, target);
-          const decimals = forcedDecimals !== null ? forcedDecimals : Number.isInteger(target) ? 0 : 1;
-          el.textContent = prefix + (decimals ? current.toFixed(decimals) : Math.round(current)) + suffix;
-          if (current >= target) clearInterval(timer);
-        }, 16);
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            const decimals =
+              forcedDecimals !== null
+                ? forcedDecimals
+                : Number.isInteger(target)
+                  ? 0
+                  : 1;
+            el.textContent =
+              prefix +
+              (decimals ? current.toFixed(decimals) : Math.round(current)) +
+              suffix;
+            if (current >= target) clearInterval(timer);
+          }, 16);
 
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.5 });
+          observer.unobserve(el);
+        });
+      },
+      { threshold: 0.5 },
+    );
 
     counters.forEach((el) => observer.observe(el));
   }
@@ -413,20 +580,23 @@
   function initMarquees() {
     // The CSS animation handles most marquees
     // Duplicate items inside the same track to keep one visual row
-    document.querySelectorAll(".banderole__track, .reviews-track").forEach((track) => {
-      if (track.dataset.duplicated) return;
-      track.dataset.duplicated = "1";
-      const items = Array.from(track.children);
-      items.forEach((item) => {
-        const clone = item.cloneNode(true);
-        clone.setAttribute("aria-hidden", "true");
-        track.appendChild(clone);
+    document
+      .querySelectorAll(".banderole__track, .reviews-track")
+      .forEach((track) => {
+        if (track.dataset.duplicated) return;
+        track.dataset.duplicated = "1";
+        const items = Array.from(track.children);
+        items.forEach((item) => {
+          const clone = item.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          track.appendChild(clone);
+        });
       });
-    });
   }
 
   /* ---------- INIT ---------- */
   document.addEventListener("DOMContentLoaded", () => {
+    injectGlobalLayout();
     initNavbar();
     initFAQ();
     initReveal();

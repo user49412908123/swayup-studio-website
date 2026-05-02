@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article — Swayup studio</title>
+  <meta name="description" content="L'Observatoire — blog Swayup studio" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-wrapper">
+
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo"><img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+    <div class="navbar__nav">
+      <a href="index.html">Accueil</a>
+      <div class="nav-dropdown-wrapper">
+        <button class="navbar__dropdown-trigger">Services &amp; Tarifs</button>
+        <div class="nav-dropdown">
+          <a href="site-web.html"><img src="assets/icon-siteweb.svg" alt="" class="nav-icon" />Site web</a>
+          <a href="identite-visuelle.html"><img src="assets/icon-identite-visuelle.svg" alt="" class="nav-icon" />Identité visuelle</a>
+          <a href="support-catalogue.html"><img src="assets/icon-graphisme.svg" alt="" class="nav-icon" />Supports physiques</a>
+          <a href="tarifs.html"><img src="assets/icon-kit-gratuit.svg" alt="" class="nav-icon" />Tarifs</a>
+        </div>
+      </div>
+      <a href="Réalisations.html">Réalisations</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <div class="navbar__right"><a href="contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
+    <button class="navbar__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar__mobile">
+  <a href="index.html">Accueil</a>
+  <button class="mobile-services-toggle" style="text-align:left;font-size:1.2rem;font-weight:500;padding:14px 0;border-bottom:1px solid #f0f0f0;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;">Services &amp; Tarifs ▾</button>
+  <div class="mobile-subnav" style="display:none;padding-left:16px;"><a href="site-web.html">Site web</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a></div>
+  <a href="Réalisations.html">Réalisations</a><a href="blog.html">Blog</a><a href="contact.html">Nous contacter</a>
+</div>
+
+<main>
+
+<!-- HERO IMAGE (injectée dynamiquement) -->
+<div id="article-hero" class="article-hero" style="display:none;">
+  <img id="article-hero-img" src="" alt="" class="article-hero__img" />
+  <div class="article-hero__overlay"></div>
+</div>
+
+<!-- CONTENU ARTICLE -->
+<section class="section">
+  <div class="container" style="max-width:780px;">
+
+    <div id="article-loading" style="text-align:center;padding:80px 0;color:var(--gris-moyen);">Chargement de l'article…</div>
+    <div id="article-error" style="display:none;text-align:center;padding:80px 0;">
+      <p style="color:var(--gris-moyen);">Article introuvable.</p>
+      <a href="blog.html" class="btn btn-cta4" style="margin-top:24px;">← Retour au blog</a>
+    </div>
+
+    <div id="article-content" style="display:none;">
+      <a href="blog.html" class="article-back">← Retour au blog</a>
+      <div id="article-meta" class="article-meta"></div>
+      <h1 id="article-title" class="article-title"></h1>
+      <div id="article-body" class="article-body"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA PIED D'ARTICLE -->
+<section style="background:var(--gris-clair);padding:56px 0;" id="article-cta" style="display:none;">
+  <div class="container" style="text-align:center;max-width:560px;">
+    <p class="label">Swayup studio</p>
+    <h2 style="margin-top:12px;">Vous avez un projet ?<br/><em>On vous montre le résultat avant de payer.</em></h2>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
+      <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1">Démarrer gratuitement</a>
+      <a href="blog.html" class="btn btn-cta4">← Retour au blog</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:var(--blanc);border-top:1px solid rgba(22,22,22,0.08);padding:64px 0 40px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
+      <div>
+        <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, graphisme et GEO pour PMEs et indépendants.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+          <a href="site-vitrine.html">Site vitrine</a><a href="site-dynamique.html">Site dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Graphisme</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+          <a href="logo.html">Logo</a><a href="graphisme.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Contact</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;color:var(--gris-moyen);">
+          <span>hello@swayupstudio.be</span><a href="contact.html">Nous écrire</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(22,22,22,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:var(--gris-moyen);">
+      <span>© 2025 Swayup studio — Bruxelles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/gsap.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const PROJECT_ID = '509u1k2c';
+  const DATASET    = 'production';
+  const API_BASE   = `https://${PROJECT_ID}.apicdn.sanity.io/v2021-10-21/data/query/${DATASET}`;
+
+  function sanityImg(ref, width) {
+    if (!ref) return '';
+    const parts = ref.split('-');
+    // format: image-{assetId}-{dims}-{ext}  (ext part after last dash)
+    const ext  = parts[parts.length - 1];
+    const dims = parts[parts.length - 2];
+    const id   = parts.slice(1, parts.length - 2).join('-');
+    const w    = width || 1200;
+    return `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${id}-${dims}.${ext}?w=${w}&auto=format`;
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('fr-BE', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  // Minimal Portable Text → HTML renderer
+  function renderPortableText(blocks) {
+    if (!blocks || !blocks.length) return '';
+    return blocks.map((block) => {
+      if (block._type === 'image') {
+        const src = sanityImg(block.asset?._ref, 1200);
+        const cap = block.caption ? `<figcaption>${block.caption}</figcaption>` : '';
+        return `<figure class="article-body__figure"><img src="${src}" alt="${block.alt || ''}" loading="lazy" />${cap}</figure>`;
+      }
+      if (block._type !== 'block') return '';
+
+      const text = renderSpans(block.children || []);
+
+      switch (block.style) {
+        case 'h2':         return `<h2>${text}</h2>`;
+        case 'h3':         return `<h3>${text}</h3>`;
+        case 'h4':         return `<h4>${text}</h4>`;
+        case 'blockquote': return `<blockquote>${text}</blockquote>`;
+        default:           return text ? `<p>${text}</p>` : '';
+      }
+    }).join('\n');
+  }
+
+  function renderSpans(children) {
+    return children.map((span) => {
+      let text = escapeHtml(span.text || '');
+      const marks = span.marks || [];
+      marks.forEach((mark) => {
+        if (mark === 'strong') text = `<strong>${text}</strong>`;
+        else if (mark === 'em') text = `<em>${text}</em>`;
+        // link marks are objects — handled separately via markDefs lookup
+      });
+      return text;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function loadArticle() {
+    const params  = new URLSearchParams(window.location.search);
+    const slug    = params.get('slug');
+
+    const loading = document.getElementById('article-loading');
+    const error   = document.getElementById('article-error');
+    const content = document.getElementById('article-content');
+    const cta     = document.getElementById('article-cta');
+
+    if (!slug) {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      return;
+    }
+
+    const query = encodeURIComponent(
+      `*[_type == "post" && slug.current == "${slug}"][0]{
+        title, slug, mainImage, publishedAt, readTime, body
+      }`
+    );
+
+    try {
+      const res  = await fetch(`${API_BASE}?query=${query}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      const post = data.result;
+
+      if (!post) throw new Error('not found');
+
+      loading.style.display = 'none';
+
+      // Set page title
+      document.title = `${post.title} — Swayup studio`;
+
+      // Hero image
+      if (post.mainImage?.asset?._ref) {
+        const hero    = document.getElementById('article-hero');
+        const heroImg = document.getElementById('article-hero-img');
+        heroImg.src   = sanityImg(post.mainImage.asset._ref, 1400);
+        heroImg.alt   = post.mainImage.alt || post.title;
+        hero.style.display = 'block';
+      }
+
+      // Meta (date + read time)
+      const metaEl = document.getElementById('article-meta');
+      const dateFmt = formatDate(post.publishedAt);
+      const rtFmt   = post.readTime ? `${post.readTime} min de lecture` : '';
+      metaEl.innerHTML = [dateFmt, rtFmt].filter(Boolean).join(' &nbsp;·&nbsp; ');
+
+      // Title
+      document.getElementById('article-title').textContent = post.title;
+
+      // Body
+      document.getElementById('article-body').innerHTML = renderPortableText(post.body || []);
+
+      content.style.display = 'block';
+      cta.style.display      = 'block';
+
+    } catch (e) {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      console.error('[Article] Sanity fetch error:', e);
+    }
+  }
+
+  loadArticle();
+})();
+</script>
+
+</body>
+</html>

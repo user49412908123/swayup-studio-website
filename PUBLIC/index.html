@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -28,19 +28,7 @@
         "description": "Studio créatif web, graphisme et GEO — prototype gratuit sans engagement avant toute décision"
       }
     </script>
-    <link rel="stylesheet" href="https://use.typekit.net/zwv0tfr.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <style>
-      @keyframes float-pill {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-    </style>
   </head>
   <body class="page-wrapper">
     <nav class="navbar" role="navigation">
@@ -52,41 +40,40 @@
           <a href="index.html" class="active">Accueil</a>
           <div class="nav-dropdown-wrapper">
             <button class="navbar__dropdown-trigger">
-              Services&nbsp;&amp;&nbsp;Tarifs
-              <svg class="chevron" viewBox="0 0 14 8" fill="none">
-                <path
-                  d="M1 1L7 7L13 1"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              Services &amp; Tarifs
             </button>
             <div class="nav-dropdown">
-              <div class="nav-dropdown__col">
-                <h5>Site Web</h5>
-                <a href="site-vitrine.html">Site Vitrine</a>
-                <a href="site-dynamique.html">Site Dynamique</a>
-                <a href="site-ecommerce.html">E-commerce</a>
-                <a href="referencement-seo.html">Référencement SEO</a>
-                <a href="referencement-geo.html"
-                  >GEO <span class="badge">Nouveau</span></a
-                >
-              </div>
-              <div class="nav-dropdown__col">
-                <h5>Graphisme</h5>
-                <a href="logo.html">Logo</a>
-                <a href="graphisme.html">Identité visuelle</a>
-                <a href="graphisme.html#reseaux">Réseaux sociaux</a>
-                <a href="support-catalogue.html"
-                  >Supports physiques <span class="badge">Catalogue</span></a
-                >
-              </div>
+              <a href="site-web.html"
+                ><img
+                  src="assets/icon-siteweb.svg"
+                  alt=""
+                  class="nav-icon"
+                />Site web</a
+              >
+              <a href="identite-visuelle.html"
+                ><img
+                  src="assets/icon-identite-visuelle.svg"
+                  alt=""
+                  class="nav-icon"
+                />Identité visuelle</a
+              >
+              <a href="support-catalogue.html"
+                ><img
+                  src="assets/icon-graphisme.svg"
+                  alt=""
+                  class="nav-icon"
+                />Supports physiques</a
+              >
+              <a href="tarifs.html"
+                ><img
+                  src="assets/icon-kit-gratuit.svg"
+                  alt=""
+                  class="nav-icon"
+                />Tarifs</a
+              >
             </div>
           </div>
-          <a href="kit-gratuit.html">Kit&nbsp;Gratuit</a>
-          <a href="galerie.html">Galerie</a>
+          <a href="Réalisations.html">Réalisations</a>
           <a href="blog.html">Blog</a>
         </div>
         <div class="navbar__right">
@@ -118,13 +105,10 @@
         Services&nbsp;&amp;&nbsp;Tarifs ▾
       </button>
       <div class="mobile-subnav" style="display: none; padding-left: 16px">
-        <a href="site-vitrine.html">Site Vitrine</a
-        ><a href="site-dynamique.html">Site Dynamique</a>
-        <a href="site-ecommerce.html">E-commerce</a
-        ><a href="referencement-seo.html">SEO</a>
-        <a href="referencement-geo.html">GEO</a><a href="logo.html">Logo</a>
-        <a href="graphisme.html">Identité visuelle</a
-        ><a href="support-catalogue.html">Supports physiques</a>
+        <a href="site-web.html">Site web</a
+        ><a href="identite-visuelle.html">Identité visuelle</a
+        ><a href="support-catalogue.html">Supports physiques</a
+        ><a href="tarifs.html">Tarifs</a>
       </div>
       <a href="kit-gratuit.html">Kit&nbsp;Gratuit</a
       ><a href="galerie.html">Galerie</a> <a href="blog.html">Blog</a
@@ -133,50 +117,57 @@
 
     <main>
       <!-- HERO -->
-      <section class="hero-home blueprint-bg">
-        <canvas
-          id="blueprint-canvas"
-          style="
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-          "
-        ></canvas>
-        <div class="bubbles-container">
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-          <div class="bubble"></div>
-        </div>
-        <div class="container hero-home__inner">
-          <p class="label">Pour PME, indépendants et commerces · Bruxelles</p>
-          <h1>
-            Votre site, votre image de marque et votre visibilité IA,
-            <em style="font-style: italic">avec un premier livrable gratuit</em>.
-          </h1>
-          <p class="lead hero-home__lead">
-            On crée un <strong>prototype concret</strong> de votre site ou de
-            votre identité visuelle avant tout engagement. Vous voyez la
-            qualité, vous gardez le livrable, et vous ne payez que si cela peut
-            vraiment vous apporter plus de clients.
+      <section class="premium-hero" aria-label="Présentation Swayup">
+        <div class="premium-hero__bg" aria-hidden="true"></div>
+
+        <img
+          src="assets/icon-floating-1.png"
+          alt=""
+          class="premium-hero__float premium-hero__float--1"
+          data-float-item
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          src="assets/icon-floating-2.png"
+          alt=""
+          class="premium-hero__float premium-hero__float--2"
+          data-float-item
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          src="assets/icon-floating-3.png"
+          alt=""
+          class="premium-hero__float premium-hero__float--3"
+          data-float-item
+          loading="lazy"
+          decoding="async"
+        />
+
+        <div class="container premium-hero__inner">
+          <p class="premium-hero__badge">
+            VOUS GARDEZ LE LIVRABLE, QUELLE QUE SOIT VOTRE DÉCISION.
           </p>
-          <div class="hero-home__ctas">
-            <a href="kit-gratuit.html" class="btn btn-cta1"
-              >Obtenir mon livrable gratuit</a
+          <h1 class="premium-hero__title">
+            <span class="hero-title--bold">Voyez le résultat</span>
+            <span class="hero-title--book"
+              >de votre site web ou de votre logo</span
             >
-            <a href="referencement-geo.html" class="btn btn-cta4"
-              >Le GEO, c'est quoi ?</a
+            <span class="hero-title--bold">avant de payer.</span>
+          </h1>
+          <p class="premium-hero__desc">
+            Swayup studio produit une <strong>première version concrète</strong>
+            de votre projet — site web, logo, ou support imprimé —
+            <strong>sans frais et sans engagement.</strong>
+          </p>
+          <div class="premium-hero__ctas">
+            <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1"
+              >Kit gratuit</a
             >
-          </div>
-          <div class="hero-home__highlights">
-            <div class="hero-home__pill">
-              <span class="dot"></span>Livrable gratuit, sans engagement
-            </div>
-            <div class="hero-home__pill">
-              <span class="dot"></span>2,5× moins cher qu'une agence
-            </div>
+            <a href="Réalisations.html" class="btn premium-hero__btn-secondary"
+              >Réalisations</a
+            >
           </div>
         </div>
       </section>
@@ -189,13 +180,6 @@
               <img
                 src="assets/logo-st-1.svg"
                 alt="Logo client 1"
-                class="banderole__logo"
-              />
-            </div>
-            <div class="banderole__item">
-              <img
-                src="assets/logo-st-2.svg"
-                alt="Logo client 2"
                 class="banderole__logo"
               />
             </div>
@@ -264,10 +248,6 @@
               <a href="kit-gratuit.html" class="btn btn-cta1"
                 >Je veux mon diagnostic + livrable gratuit</a
               >
-              <p class="offer-split__slogan">
-                <strong>Moins de risque, plus de résultats :</strong> vous
-                décidez sur du concret, pas sur des promesses.
-              </p>
             </div>
             <div class="offer-split__visual">
               <img
@@ -293,9 +273,8 @@
               <em style="font-style: italic">On construit tout le système</em>.
             </h2>
             <p>
-              De l'offre visible au site qui convertit, jusqu'au GEO qui vous
-              fait recommander par les IA : un seul studio, un seul plan,
-              orienté business.
+              De la conception de votre identité visuelle, jusqu'au site
+              internet complet : un seul studio, un seul plan, orienté business.
             </p>
           </div>
           <div class="grid-3">
@@ -303,60 +282,16 @@
               <div class="service-card__icon">
                 <img src="assets/icon-siteweb.svg" alt="Site web" />
               </div>
-              <h3>Site Vitrine</h3>
+              <h3>Site internet</h3>
               <p>
-                Un site professionnel qui présente votre activité et capte des
-                leads 24h/24.
+                Un site web professionnel qui présente votre activité et vous
+                rapporte des clients 24h/24.
               </p>
               <a href="site-vitrine.html" class="btn btn-cta4"
                 >En savoir plus</a
               >
             </div>
-            <div class="service-card reveal reveal-delay-2">
-              <div class="service-card__icon">
-                <img src="assets/icon-site-ecom.svg" alt="E-commerce" />
-              </div>
-              <h3>E-commerce</h3>
-              <p>
-                Boutique en ligne complète, optimisée pour la conversion. Votre
-                magasin ouvert 24h/24.
-              </p>
-              <a href="site-ecommerce.html" class="btn btn-cta4"
-                >En savoir plus</a
-              >
-            </div>
-            <div class="service-card reveal reveal-delay-3">
-              <div class="service-card__icon">
-                <img src="assets/icon-geo.svg" alt="GEO" />
-              </div>
-              <h3>
-                GEO — Optimisation IA
-                <span
-                  class="tag tag--orange"
-                  style="font-size: 0.6rem; vertical-align: middle"
-                  >Nouveau</span
-                >
-              </h3>
-              <p>
-                Être cité par ChatGPT, Perplexity et Gemini dans votre secteur.
-              </p>
-              <a href="referencement-geo.html" class="btn btn-cta1"
-                >Découvrir</a
-              >
-            </div>
-            <div class="service-card reveal reveal-delay-1">
-              <div class="service-card__icon">
-                <img src="assets/icon-réferencement.svg" alt="SEO" />
-              </div>
-              <h3>Référencement SEO</h3>
-              <p>
-                Positionnement organique durable sur Google. Stratégie locale et
-                sectorielle.
-              </p>
-              <a href="referencement-seo.html" class="btn btn-cta4"
-                >En savoir plus</a
-              >
-            </div>
+
             <div class="service-card reveal reveal-delay-2">
               <div class="service-card__icon">
                 <img src="assets/icon-graphisme.svg" alt="Graphisme" />
@@ -390,19 +325,32 @@
         <div class="container">
           <div class="stats-row reveal">
             <div class="stat-item">
-              <div class="stat-item__value" data-count="2.5" data-decimals="1" data-suffix="×">2.5×</div>
+              <div
+                class="stat-item__value"
+                data-count="2.5"
+                data-decimals="1"
+                data-suffix="×"
+              >
+                2.5×
+              </div>
               <div class="stat-item__label">Moins cher qu'une agence</div>
             </div>
             <div class="stat-item">
-              <div class="stat-item__value" data-count="100" data-suffix="%">100%</div>
+              <div class="stat-item__value" data-count="100" data-suffix="%">
+                100%
+              </div>
               <div class="stat-item__label">Livrable gratuit sans risque</div>
             </div>
             <div class="stat-item">
-              <div class="stat-item__value" data-count="4" data-suffix=" IA">4 IA</div>
+              <div class="stat-item__value" data-count="4" data-suffix=" IA">
+                4 IA
+              </div>
               <div class="stat-item__label">Ciblées par notre GEO</div>
             </div>
             <div class="stat-item">
-              <div class="stat-item__value" data-count="1" data-prefix="N°">N°1</div>
+              <div class="stat-item__value" data-count="1" data-prefix="N°">
+                N°1
+              </div>
               <div class="stat-item__label">Studio GEO francophone</div>
             </div>
           </div>
@@ -1175,5 +1123,6 @@
     </footer>
     <script src="js/gsap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/hero.js"></script>
   </body>
 </html>

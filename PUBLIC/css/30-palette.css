@@ -1,0 +1,19 @@
+/* ---------- PALETTE HARMONIZATION ---------- */
+.blueprint-bg::before,
+.kit-section::before,
+.page-hero::before,
+.page-hero--light::before {
+  background-image:
+    linear-gradient(rgba(238, 105, 79, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(238, 105, 79, 0.06) 1px, transparent 1px);
+}
+
+.geo-badge {
+  background: linear-gradient(
+    135deg,
+    rgba(238, 105, 79, 0.16),
+    rgba(238, 79, 105, 0.14)
+  );
+  border-color: rgba(238, 79, 105, 0.34);
+  color: var(--secondary);
+}
