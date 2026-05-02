@@ -236,6 +236,31 @@
     });
   }
 
+  /* ---------- PRESTATION ACCORDION ---------- */
+  function initPrestations() {
+    document.querySelectorAll(".prestation-item").forEach((item) => {
+      const header = item.querySelector(".prestation-header");
+      const body = item.querySelector(".prestation-body");
+      if (!header || !body) return;
+
+      header.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+        document.querySelectorAll(".prestation-item.open").forEach((openItem) => {
+          openItem.classList.remove("open");
+          const b = openItem.querySelector(".prestation-body");
+          if (b) b.style.maxHeight = "0";
+          const h = openItem.querySelector(".prestation-header");
+          if (h) h.setAttribute("aria-expanded", "false");
+        });
+        if (!isOpen) {
+          item.classList.add("open");
+          body.style.maxHeight = body.scrollHeight + "px";
+          header.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  }
+
   /* ---------- SCROLL REVEAL (IntersectionObserver) ---------- */
   function initReveal() {
     const observer = new IntersectionObserver(
@@ -599,6 +624,7 @@
     injectGlobalLayout();
     initNavbar();
     initFAQ();
+    initPrestations();
     initReveal();
     initFilters();
     initForms();
