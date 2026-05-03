@@ -74,7 +74,7 @@
       <!-- FORMULAIRE -->
       <div>
         <h3 style="margin-bottom:32px;">Envoyez-nous un message</h3>
-        <form action="https://webhook-placeholder.example.com/contact" method="POST" style="display:flex;flex-direction:column;gap:20px;">
+        <form data-webhook="https://n8n.swayup-artisan.com/webhook-test/4465efd0-d569-4609-9ccc-8a9555d5b29a" data-success-default="Votre message a bien été envoyé. Nous vous répondons sous 24h ouvrées." data-error-default="Impossible d'envoyer votre message pour le moment. Réessayez dans quelques instants." style="display:flex;flex-direction:column;gap:20px;">
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
@@ -104,12 +104,23 @@
               <option value="site-vitrine">Site vitrine</option>
               <option value="site-dynamique">Site dynamique</option>
               <option value="e-commerce">E-commerce</option>
-              <option value="seo">Référencement SEO</option>
-              <option value="geo">GEO — Référencement IA</option>
               <option value="logo">Logo</option>
               <option value="identite-visuelle">Identité visuelle</option>
               <option value="supports-physiques">Supports physiques</option>
+              <option value="kit-gratuit">Kit Gratuit de l'Arpenteur</option>
               <option value="autre">Autre / Je ne sais pas encore</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Budget approximatif</label>
+            <select name="budget" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'">
+              <option value="">Sélectionner...</option>
+              <option value="moins-1000">Moins de 1 000 €</option>
+              <option value="1000-3000">1 000 – 3 000 €</option>
+              <option value="3000-6000">3 000 – 6 000 €</option>
+              <option value="plus-6000">6 000 € et plus</option>
+              <option value="ne-sait-pas">Je ne sais pas encore</option>
             </select>
           </div>
 
@@ -119,8 +130,10 @@
           </div>
 
           <div>
-            <button type="submit" class="btn btn-cta1" style="width:100%;justify-content:center;padding:15px 24px;">Envoyer le message</button>
+            <button type="submit" class="btn btn-cta1" style="width:100%;justify-content:center;padding:15px 24px;">Envoyer le formulaire</button>
             <p style="font-size:0.78rem;color:var(--gris-moyen);margin-top:10px;text-align:center;">Réponse garantie sous 24h ouvrées.</p>
+            <p class="form-success" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(46,125,50,0.08);border:1px solid rgba(46,125,50,0.22);color:#256029;text-align:center;"></p>
+            <p class="form-error" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(176,0,32,0.08);border:1px solid rgba(176,0,32,0.18);color:#8a1538;text-align:center;"></p>
           </div>
 
         </form>
@@ -178,7 +191,7 @@
         <div style="margin-top:40px;padding:24px;background:rgba(255,124,54,0.06);border:1px solid rgba(255,124,54,0.15);border-radius:var(--radius-card);">
           <p style="font-size:0.9rem;font-weight:600;margin-bottom:8px;">Vous préférez partir sur une base concrète ?</p>
           <p style="font-size:0.85rem;color:#3a3a3a;line-height:1.6;">Demandez le Kit Gratuit. On vous livre un prototype ou un logo avant que vous décidiez quoi que ce soit.</p>
-          <a href="kit-gratuit.html" class="btn btn-cta1 btn-sm" style="margin-top:16px;">Kit Gratuit</a>
+          <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm" style="margin-top:16px;">Kit Gratuit</a>
         </div>
 
       </div>
@@ -194,13 +207,13 @@
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
       <div>
         <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
-        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, graphisme et GEO pour PMEs et indépendants. Testez avant de payer.</p>
-        <div style="margin-top:20px;"><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, identité visuelle et supports physiques pour PMEs et indépendants. Testez avant de payer.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
       </div>
       <div>
         <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
-          <a href="site-vitrine.html">Site vitrine</a><a href="site-dynamique.html">Site dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a>
+          <a href="site-web.html">Site web</a><a href="site-ecommerce.html">E-commerce</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a>
         </div>
       </div>
       <div>

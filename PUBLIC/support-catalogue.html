@@ -6,6 +6,513 @@
   <title>Supports Physiques — Catalogue Imprimé | Swayup studio</title>
   <meta name="description" content="Catalogue complet de supports physiques : cartes de visite, flyers, affiches, roll-up, packaging, enseignes, goodies. Fichiers print-ready, cohérence de marque garantie." />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    .support-page {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+    }
+
+    .support-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: min(78svh, 720px);
+      padding: calc(var(--nav-h) + 2px) 0 54px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    .support-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: center / cover no-repeat url("assets/grid-background-hero.png");
+      opacity: 0.32;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.45));
+      pointer-events: none;
+    }
+
+    .support-hero__inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .support-hero__content {
+      width: min(100%, 860px);
+      margin-inline: auto;
+      padding-right: 0;
+    }
+
+    .support-hero__title {
+      max-width: 12.5ch;
+      margin-inline: auto;
+      color: var(--noir);
+      font-size: clamp(52px, 4.9vw, 92px);
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+    }
+
+    .support-hero__title em {
+      color: inherit;
+      font-style: italic;
+    }
+
+    .support-hero__title strong {
+      font-weight: 700;
+    }
+
+    .support-hero__title span {
+      display: block;
+    }
+
+    .support-hero__desc {
+      max-width: 58ch;
+      margin-top: 36px;
+      margin-inline: auto;
+      font-family: "halyard-text", system-ui, sans-serif;
+      font-weight: 300;
+      font-size: clamp(15px, 1.1vw, 20px);
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      color: #161616;
+    }
+
+    .support-hero__ctas {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .support-delivery {
+      padding: 36px 0 26px;
+    }
+
+    .support-delivery__card {
+      position: relative;
+      padding: clamp(28px, 4vw, 46px);
+      border-radius: 30px;
+      background: #161616;
+      box-shadow: 0 28px 70px rgba(22, 22, 22, 0.16);
+      overflow: hidden;
+    }
+
+    .support-delivery__text {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .support-delivery__text h2 {
+      color: #fbfbfb;
+      margin-top: 12px;
+      font-size: clamp(2rem, 3.2vw, 3.2rem);
+    }
+
+    .support-delivery__text p {
+      color: rgba(251, 251, 251, 0.68);
+      margin: 14px auto 0;
+      max-width: 58ch;
+    }
+
+    .support-delivery__map {
+      position: relative;
+      width: 100%;
+      min-height: clamp(420px, 56vw, 620px);
+      margin-top: 34px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(251, 251, 251, 0.12);
+      background: #101010;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .support-delivery__map .leaflet-container,
+    .support-delivery__map {
+      z-index: 1;
+    }
+
+    .support-delivery__map .leaflet-control-attribution {
+      font-size: 0.65rem;
+    }
+
+    .support-delivery__map .leaflet-control-zoom a {
+      color: #161616;
+    }
+
+    .support-catalog {
+      padding-top: 26px;
+    }
+
+    .support-catalog__grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .support-product {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 100%;
+      border: 1px solid rgba(22, 22, 22, 0.08);
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 18px 45px rgba(22, 22, 22, 0.06);
+      transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+    }
+
+    .support-product:hover {
+      transform: translateY(-5px);
+      border-color: rgba(238, 105, 79, 0.26);
+      box-shadow: 0 24px 52px rgba(22, 22, 22, 0.1);
+    }
+
+    .support-product__media {
+      position: relative;
+      aspect-ratio: 1.28;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(238, 105, 79, 0.22), rgba(255, 255, 255, 0.88) 42%, rgba(22, 22, 22, 0.08) 100%);
+    }
+
+    .support-product__shape,
+    .support-product__shape::before,
+    .support-product__shape::after {
+      position: absolute;
+      content: "";
+      display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(22, 22, 22, 0.08);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(22, 22, 22, 0.08);
+    }
+
+    .support-product__shape {
+      width: 62%;
+      height: 58%;
+      right: 12%;
+      top: 15%;
+      transform: rotate(-6deg);
+    }
+
+    .support-product__shape::before {
+      inset: auto;
+      width: 58%;
+      height: 50%;
+      left: -34%;
+      bottom: -8%;
+      transform: rotate(14deg);
+      background: rgba(238, 105, 79, 0.14);
+    }
+
+    .support-product__shape::after {
+      inset: auto;
+      width: 24%;
+      height: 24%;
+      right: -12%;
+      top: -12%;
+      border-radius: 50%;
+      background: rgba(22, 22, 22, 0.08);
+      box-shadow: none;
+    }
+
+    .support-product__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 22px 20px 20px;
+    }
+
+    .support-product__body h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .support-product__body p {
+      margin-top: 12px;
+      margin-bottom: 26px;
+      font-size: 0.86rem;
+      line-height: 1.38;
+      color: #505050;
+    }
+
+    .support-product__body .btn {
+      margin-top: auto;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .support-kit {
+      padding-top: 8px;
+    }
+
+    .support-kit__panel {
+      display: block;
+      padding: clamp(26px, 4vw, 44px);
+      border-radius: 30px;
+      background: linear-gradient(140deg, #161616 0%, #202020 52%, #2b2b2b 100%);
+      box-shadow: 0 28px 70px rgba(22, 22, 22, 0.18);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .support-kit__panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(238, 105, 79, 0.24), transparent 28%),
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: auto, 42px 42px, 42px 42px;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .support-kit__content,
+    .support-kit__visual {
+      position: relative;
+      z-index: 1;
+    }
+
+    .support-kit__content {
+      max-width: 850px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .support-kit__content h2,
+    .support-kit__content p,
+    .support-kit__content li {
+      color: #fbfbfb;
+    }
+
+    .support-kit__lead {
+      margin-top: 20px;
+      max-width: 60ch;
+      margin-inline: auto;
+      color: rgba(251, 251, 251, 0.78);
+    }
+
+    .support-kit__list {
+      display: grid;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .support-kit__list li {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .support-kit__list li:last-child {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .support-kit__list strong {
+      color: var(--orange);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .support-kit__ctas {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .support-kit__visual {
+      display: none;
+    }
+
+    .support-kit__story,
+    .support-kit__proof {
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      padding: 22px;
+    }
+
+    .support-kit__story p,
+    .support-kit__proof p {
+      color: rgba(251, 251, 251, 0.76);
+      font-size: 0.95rem;
+    }
+
+    .support-kit__story strong,
+    .support-kit__proof strong {
+      color: #fff;
+    }
+
+    .support-kit__proof {
+      background: rgba(238, 105, 79, 0.12);
+      border-color: rgba(238, 105, 79, 0.28);
+    }
+
+    @media (max-width: 1100px) {
+      .support-catalog__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .support-hero__content {
+        padding-right: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .support-catalog__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .support-hero {
+        min-height: auto;
+        padding-top: calc(var(--nav-h) + 20px);
+      }
+
+      .support-hero__title {
+        max-width: 9.8ch;
+      }
+
+      .support-hero__desc {
+        margin-top: 28px;
+        line-height: 1.35;
+        letter-spacing: -0.02em;
+      }
+
+      .support-hero__ctas,
+      .support-hero__ctas .btn,
+      .support-kit__ctas .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .support-delivery__card,
+      .support-kit__panel {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .support-delivery__map {
+        min-height: 380px;
+        border-radius: 16px;
+      }
+
+      .support-catalog__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .support-kit__list li {
+        align-items: flex-start;
+      }
+    }
+
+    .support-faq .faq-question {
+      width: 100%;
+      text-align: left;
+    }
+
+    .support-faq .section-header {
+      max-width: 760px;
+      margin-inline: auto;
+      text-align: left !important;
+    }
+
+    .support-faq .section-header.center p {
+      margin-inline: 0;
+    }
+
+    .support-faq .faq-question .icon {
+      position: relative;
+      border-color: rgba(22, 22, 22, 0.16);
+      background: #fff;
+    }
+
+    .support-faq .faq-question .icon::before,
+    .support-faq .faq-question .icon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transform: translate(-50%, -50%);
+      transition:
+        transform var(--transition),
+        background-color var(--transition);
+    }
+
+    .support-faq .faq-question .icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .support-faq .faq-item.open .faq-question .icon {
+      color: var(--orange);
+      background: rgba(238, 105, 79, 0.1);
+      border-color: var(--orange);
+    }
+
+    .support-faq .faq-item.open .faq-question .icon::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .support-faq .faq-item.open .faq-question .icon::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .support-pricing-card {
+      max-width: 820px;
+      margin: 48px auto 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.44)),
+        var(--gris-clair);
+      border: 1px solid rgba(22, 22, 22, 0.08);
+      border-radius: 24px;
+      padding: clamp(28px, 4vw, 44px);
+      box-shadow: 0 18px 46px rgba(22, 22, 22, 0.06);
+      text-align: center;
+    }
+
+    .support-pricing-card .section-header {
+      margin-bottom: 0;
+    }
+
+    .support-pricing-card__ctas {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,7 +524,7 @@
   }
   </script>
 </head>
-<body class="page-wrapper">
+<body class="page-wrapper support-page">
 
 <nav class="navbar" role="navigation">
   <div class="navbar__inner">
@@ -46,203 +553,161 @@
 </div>
 
 <main>
-
-<div class="page-hero">
-  <div class="container page-hero--split">
-    <div>
-      <p class="label" style="margin-bottom:16px;">Supports physiques</p>
-      <h1>Tout ce qui porte votre marque, <em style="font-style:italic;">pensé pour durer</em>.</h1>
-      <p class="lead" style="color:rgba(251,251,251,0.75);margin-top:24px;max-width:540px;">De la carte de visite à l'enseigne de façade, chaque support physique est un point de contact avec votre client. On les conçoit avec la même rigueur que votre site — cohérents, professionnels, print-ready.</p>
-      <div class="page-hero__ctas" style="margin-top:36px;display:flex;gap:16px;flex-wrap:wrap;">
+<section class="support-hero">
+  <div class="container support-hero__inner">
+    <div class="support-hero__content">
+      <h1 class="support-hero__title"><span>Des supports <strong>imprimés</strong></span><span><strong>beaux</strong>, utiles et</span><span><strong>prêts à livrer</strong>.</span></h1>
+      <p class="support-hero__desc">Cartes de visite, flyers, roll-up, enseignes ou packaging: on conçoit vos supports avec la même exigence que votre identité visuelle. Vous validez le rendu, on gère ensuite l’impression et la livraison en Belgique.</p>
+      <div class="support-hero__ctas">
         <a href="contact.html" class="btn btn-cta1">Demander un devis</a>
-        <a href="kit-gratuit.html" class="btn btn-cta2">Kit Gratuit</a>
-      </div>
-    </div>
-    <div class="page-hero__arpenteur">
-      <img src="assets/ARPENTEUR-CHUTE-5.svg" alt="Arpenteur Swayup studio — supports physiques" />
-    </div>
-  </div>
-</div>
-
-<!-- INTRO -->
-<section class="section reveal">
-  <div class="container">
-    <div class="section-header">
-      <p class="label">Le rôle des supports physiques</p>
-      <h2>Votre marque existe<br /><em style="font-style:italic;">au-delà de l'écran</em></h2>
-    </div>
-    <div class="grid-2" style="margin-top:48px;gap:48px;align-items:center;">
-      <div>
-        <p style="font-size:1.05rem;line-height:1.75;color:#3a3a3a;">Votre site web est la vitrine digitale. Vos supports physiques sont les ambassadeurs dans le monde réel. Une carte de visite bien conçue reste dans un portefeuille. Un flyer percutant se montre à un ami. Une enseigne visible attire un passant.</p>
-        <p style="margin-top:16px;font-size:1.05rem;line-height:1.75;color:#3a3a3a;">Chaque support qu'on crée respecte votre charte graphique : mêmes couleurs, mêmes typographies, même ton. La cohérence visuelle est ce qui construit la reconnaissance et la confiance dans le temps.</p>
-        <p style="margin-top:16px;font-size:1.05rem;line-height:1.75;color:#3a3a3a;">On vous livre des fichiers print-ready — prêts à être envoyés directement à votre imprimeur ou au nôtre selon votre préférence.</p>
-      </div>
-      <div style="background:var(--gris-clair);border-radius:var(--radius-card);padding:36px;">
-        <h4 style="margin-bottom:20px;">Ce qu'on garantit</h4>
-        <ul style="display:flex;flex-direction:column;gap:14px;">
-          <li style="display:flex;gap:12px;"><span style="color:var(--orange);font-weight:600;flex-shrink:0;">—</span><span>Cohérence avec votre identité visuelle (logo, couleurs, typographies)</span></li>
-          <li style="display:flex;gap:12px;"><span style="color:var(--orange);font-weight:600;flex-shrink:0;">—</span><span>Fichiers print-ready : fonds perdus, résolution 300 dpi, profil couleur CMJN</span></li>
-          <li style="display:flex;gap:12px;"><span style="color:var(--orange);font-weight:600;flex-shrink:0;">—</span><span>Bon à tirer envoyé avant impression — aucune surprise à la réception</span></li>
-          <li style="display:flex;gap:12px;"><span style="color:var(--orange);font-weight:600;flex-shrink:0;">—</span><span>Fichiers sources livrés pour vos futures modifications</span></li>
-        </ul>
+        <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta4">Découvrir le kit gratuit</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CATALOGUE -->
-<section class="section section--dark reveal">
+<section class="section support-delivery reveal">
+  <div class="container">
+    <div class="support-delivery__card">
+      <div class="support-delivery__text">
+        <p class="label">Zone de livraison</p>
+        <h2>Livraison print disponible en Belgique.</h2>
+        <p>Conception à distance, impression suivie, livraison directement chez vous ou dans votre établissement.</p>
+      </div>
+      <div id="support-belgium-map" class="support-delivery__map" aria-label="Carte de la zone de livraison en Belgique"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section support-catalog reveal">
   <div class="container">
     <div class="section-header center" style="text-align:center;">
-      <p class="label" style="color:var(--orange);">Le catalogue</p>
-      <h2 style="color:var(--fond);">Tout ce qu'on<br /><em style="font-style:italic;">peut créer pour vous</em></h2>
+      <p class="label">Catalogue</p>
+      <h2>Choisissez le support qui vous aide<br /><em style="font-style:italic;">à être vu pour de vrai</em></h2>
+      <p class="lead" style="max-width:720px;margin:16px auto 0;">Voici une sélection de supports déjà pris en charge. Chaque carte présente un aperçu visuel, le support concerné et un point d’entrée rapide vers votre devis.</p>
     </div>
 
-    <div style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+    <div class="support-catalog__grid">
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Cartes de visite</h3>
+          <p>Recto/verso, finitions premium et format pro pour laisser une première impression nette et crédible.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
 
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 01</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Cartes de visite</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Standard (85 × 55 mm, recto/verso)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Premium (pelliculage mat/brillant)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Vernis sélectif</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Métal ou plastique</li>
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Flyers</h3>
+          <p>A5, A4, simple ou recto/verso pour vos offres, ouvertures, promos locales ou distribution terrain.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Affiches</h3>
+          <p>Formats événementiels ou vitrines pour capter le regard avec un message lisible à distance.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Stickers et autocollants</h3>
+          <p>Découpe libre, étiquettes produits ou vitrophanie pour ajouter votre marque partout où elle compte.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Goodies</h3>
+          <p>Stylos, carnets, mugs ou tote bags utiles, cohérents et pensés pour prolonger votre image de marque.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Packaging</h3>
+          <p>Boîtes, pochettes, étiquettes et détails d’unboxing pour transformer la réception en expérience.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Menus de restaurant</h3>
+          <p>Menus papier, triptyques ou formats QR pensés pour rester lisibles, appétissants et faciles à mettre à jour.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Calendriers</h3>
+          <p>Calendriers muraux ou de bureau pour installer votre marque dans le quotidien pendant 12 mois.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Vêtements professionnels</h3>
+          <p>Broderie ou sérigraphie pour rendre votre équipe identifiable, propre et cohérente sur le terrain.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Cartes de fidélité</h3>
+          <p>Un support simple pour encourager le retour client et structurer une mécanique de fidélisation locale.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+
+      <article class="support-product">
+        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__body">
+          <h3>Support personnalisé</h3>
+          <p>Un besoin spécifique hors catalogue ? On conçoit aussi des supports sur mesure adaptés à votre activité, à votre usage et à vos contraintes terrain.</p>
+          <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section support-kit reveal">
+  <div class="container">
+    <div class="support-kit__panel">
+      <div class="support-kit__content">
+        <p class="label" style="color:var(--orange);">Kit gratuit de l'Arpenteur</p>
+        <h2>Testez votre support imprimé <em style="color:var(--orange);font-style:italic;">avant de payer.</em></h2>
+        <p class="support-kit__lead">On crée une première proposition graphique gratuite pour le support de votre choix. Vous voyez le rendu, vous décidez ensuite si on imprime.</p>
+        <ul class="support-kit__list">
+          <li><strong>01</strong><span>Vous nous dites quel support vous voulez retravailler et ce que vous attendez du rendu.</span></li>
+          <li><strong>02</strong><span>On vous prépare gratuitement une proposition visuelle 100% adaptée à votre activité.</span></li>
+          <li><strong>03</strong><span>Si ça vous plaît, on lance l’impression et vous recevez vos supports directement chez vous en Belgique.</span></li>
         </ul>
+        <div class="support-kit__ctas">
+          <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1">Activer mon kit gratuit</a>
+          <a href="contact.html" class="btn btn-cta2">Parler de mon support</a>
+        </div>
       </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 02</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Flyers</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">A5 (148 × 210 mm)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">A4 (210 × 297 mm)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Recto simple ou recto/verso</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 03</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Affiches</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">A3, A2, A1</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">40 × 60 cm</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">60 × 80 cm</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">120 × 176 cm (4x3)</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 04</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Roll-up</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">85 × 200 cm (standard)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">100 × 200 cm (large)</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 05</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Bâches et kakémonos</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Bâches sur mesure</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Kakémonos</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Toiles tendues</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 06</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Stickers et autocollants</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Stickers découpe (forme libre)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Étiquettes adhésives</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Autocollants vitrine</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 07</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Goodies</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Stylos personnalisés</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Carnets et blocs-notes</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Tote bags</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Mugs et verres</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 08</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Packaging</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Boîtes sur mesure</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Pochettes cadeaux</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Étiquettes produits</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Papier de soie personnalisé</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 09</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">PLV</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Présentoirs de comptoir</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Stop-rayons</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Displays sol</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 10</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Menus de restaurant</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Menu simple (A4 ou A5)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Menu triptyque</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Ardoise / QR code</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 11</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Calendriers</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Calendrier mural 12 pages</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Calendrier de bureau</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Pocket (format carte)</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 12</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Enseignes</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Découpe aluminium ou PVC</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Caisson lumineux</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Adhésif vitrine</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 13</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Vêtements professionnels</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Broderie logo (polos, vestes, casquettes)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Sérigraphie (t-shirts, tabliers)</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Fichiers broderie et sérigraphie livrés</li>
-        </ul>
-      </div>
-
-      <div style="background:rgba(251,251,251,0.04);border:1px solid rgba(251,251,251,0.08);border-radius:var(--radius-card);padding:28px;">
-        <p style="color:var(--orange);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">— 14</p>
-        <h4 style="color:var(--fond);margin-bottom:12px;font-size:1.05rem;">Cartes de fidélité</h4>
-        <ul style="display:flex;flex-direction:column;gap:6px;">
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Format carte de visite</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Recto/verso, case à tamponner</li>
-          <li style="color:rgba(251,251,251,0.6);font-size:0.88rem;">Pelliculage mat ou brillant disponible</li>
-        </ul>
-      </div>
-
     </div>
   </div>
 </section>
@@ -250,22 +715,21 @@
 <!-- TARIFS -->
 <section class="section reveal">
   <div class="container">
-    <div class="section-header center" style="text-align:center;">
-      <p class="label">Tarifs</p>
-      <h2>Sur mesure selon<br /><em style="font-style:italic;">quantité et format</em></h2>
-      <p class="lead" style="max-width:560px;margin:16px auto 0;">Le tarif de création graphique dépend du support et de la complexité. Les coûts d'impression dépendent de vos quantités et de votre imprimeur. On vous aide à trouver le meilleur rapport qualité/prix.</p>
-    </div>
-    <div style="margin-top:48px;max-width:720px;margin-inline:auto;background:var(--gris-clair);border-radius:var(--radius-card);padding:40px;">
-      <p style="font-size:1.05rem;line-height:1.7;color:#3a3a3a;">On vous remet un devis clair qui sépare le coût de création graphique (notre prestation) et le coût d'impression si vous souhaitez qu'on gère aussi ça. Vous pouvez aussi prendre nos fichiers et les faire imprimer où vous voulez — pas de contrainte.</p>
-      <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;">
+    <div class="support-pricing-card">
+      <div class="section-header center" style="text-align:center;">
+        <p class="label">Tarifs</p>
+        <h2>Sur mesure selon<br /><em style="font-style:italic;">quantité et format</em></h2>
+        <p class="lead" style="max-width:560px;margin:16px auto 0;">Le tarif dépend du support, de la complexité graphique, des quantités et de la finition. On vous aide à choisir le bon rapport qualité/prix avant impression.</p>
+      </div>
+      <div class="support-pricing-card__ctas">
         <a href="contact.html" class="btn btn-cta1">Demander un devis</a>
-        <a href="kit-gratuit.html" class="btn btn-cta4">Kit Gratuit</a>
+        <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta4">Kit Gratuit</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section reveal">
+<section class="section reveal support-faq">
   <div class="container">
     <div class="section-header center" style="text-align:center;margin-bottom:48px;">
       <p class="label">Questions fréquentes</p>
@@ -274,32 +738,32 @@
     <div style="max-width:760px;margin-inline:auto;">
 
       <div class="faq-item">
-        <button class="faq-question">Quels sont les délais pour recevoir mes supports ?</button>
+        <button class="faq-question"><span>Quels sont les délais pour recevoir mes supports ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>Le délai de création graphique est de 3 à 7 jours ouvrables selon le support. Le délai d'impression varie selon l'imprimeur et le support : comptez 3 à 10 jours ouvrables supplémentaires pour l'impression et la livraison. On vous communique des délais précis dans le devis.</p></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">Puis-je faire imprimer moi-même avec vos fichiers ?</button>
+        <button class="faq-question"><span>Puis-je faire imprimer moi-même avec vos fichiers ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>Oui, absolument. On vous livre des fichiers print-ready que vous pouvez envoyer à n'importe quel imprimeur — en ligne (Helloprint, Pixartprinting) ou local. Tous les fichiers respectent les normes d'impression : fonds perdus de 3 mm, résolution 300 dpi, profil CMJN, marques de coupe.</p></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">Les supports seront-ils cohérents avec mon logo et mon site ?</button>
+        <button class="faq-question"><span>Les supports seront-ils cohérents avec mon logo et mon site ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>C'est l'un de nos engagements principaux. Si on a créé votre logo ou votre site, on utilise exactement les mêmes couleurs, typographies et éléments graphiques sur tous vos supports physiques. Si vous arrivez avec votre charte graphique existante, on la respecte scrupuleusement.</p></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">Gérez-vous aussi l'impression ?</button>
+        <button class="faq-question"><span>Gérez-vous aussi l'impression ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>Oui, si vous le souhaitez. On peut gérer l'impression via nos partenaires et vous livrer directement vos supports. C'est une option — pas une obligation. Certains clients préfèrent gérer ça en local ou via un imprimeur de confiance qu'ils connaissent déjà.</p></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">Puis-je commander plusieurs supports en même temps ?</button>
+        <button class="faq-question"><span>Puis-je commander plusieurs supports en même temps ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>Oui, et c'est souvent plus économique. Si vous avez besoin de cartes de visite, flyers et roll-up pour un lancement ou un salon, on peut tout créer d'un coup pour assurer la cohérence et optimiser les délais.</p></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">Pouvez-vous créer des supports pour des événements spécifiques ?</button>
+        <button class="faq-question"><span>Pouvez-vous créer des supports pour des événements spécifiques ?</span><span class="icon" aria-hidden="true"></span></button>
         <div class="faq-answer"><p>Oui. Lancements de produits, salons professionnels, portes ouvertes, événements de fin d'année — on crée des supports adaptés à l'événement tout en restant cohérents avec votre identité de marque. Pensez à nous contacter suffisamment à l'avance pour respecter les délais d'impression.</p></div>
       </div>
 
@@ -314,13 +778,13 @@
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
       <div>
         <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
-        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, graphisme et GEO pour PMEs et indépendants. Testez avant de payer.</p>
-        <div style="margin-top:20px;"><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, identité visuelle et supports physiques pour PMEs et indépendants. Testez avant de payer.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
       </div>
       <div>
         <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
-          <a href="site-vitrine.html">Site vitrine</a><a href="site-dynamique.html">Site dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a>
+          <a href="site-web.html">Site web</a><a href="site-ecommerce.html">E-commerce</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a>
         </div>
       </div>
       <div>
@@ -343,6 +807,55 @@
   </div>
 </footer>
 <script src="js/gsap.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    const mapEl = document.getElementById("support-belgium-map");
+    if (!mapEl || typeof L === "undefined") return;
+
+    const CENTER = [50.64, 4.67];
+    const RADIUS_KM = 150;
+
+    const map = L.map(mapEl, {
+      center: CENTER,
+      zoom: 7,
+      minZoom: 6,
+      maxZoom: 12,
+      scrollWheelZoom: false,
+      zoomControl: true,
+      attributionControl: true,
+    });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: "abcd",
+      maxZoom: 19,
+    }).addTo(map);
+
+    L.circle(CENTER, {
+      radius: RADIUS_KM * 1000,
+      color: "#ee694f",
+      fillColor: "#ee694f",
+      fillOpacity: 0.1,
+      weight: 1.8,
+      opacity: 0.95,
+    }).addTo(map);
+
+    const icon = L.divIcon({
+      className: "",
+      html: '<div style="width:14px;height:14px;border-radius:50%;background:#ee694f;box-shadow:0 0 0 5px rgba(238,105,79,0.25),0 0 26px rgba(238,105,79,0.55);"></div>',
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+
+    L.marker([50.8467, 4.3525], { icon, alt: "Swayup studio - Bruxelles" }).addTo(map).bindPopup("Swayup studio - Bruxelles");
+
+    setTimeout(function () {
+      map.invalidateSize();
+    }, 250);
+  });
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>

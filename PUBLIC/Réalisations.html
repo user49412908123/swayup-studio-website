@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio — Swayup studio</title>
-  <meta name="description" content="Réalisations Swayup studio — sites web, identités visuelles, supports physiques et référencement pour PMEs et indépendants en Belgique." />
+  <meta name="description" content="Réalisations Swayup studio — sites web, identités visuelles et supports physiques pour PMEs et indépendants en Belgique." />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="page-wrapper">
@@ -43,7 +43,7 @@
   <div class="container">
     <p class="label" style="margin-bottom:16px;">Portfolio</p>
     <h1>Ce qu'on a créé pour<br/><em>des clients comme vous</em></h1>
-    <p class="lead" style="color:rgba(251,251,251,0.7);margin-top:20px;max-width:580px;">Sites web, logos, identités visuelles, référencement. Chaque projet, une réponse concrète à un vrai besoin.</p>
+    <p class="lead" style="color:rgba(251,251,251,0.7);margin-top:20px;max-width:580px;">Sites web, logos, identités visuelles, supports physiques. Chaque projet, une réponse concrète à un vrai besoin.</p>
   </div>
 </div>
 
@@ -56,7 +56,6 @@
       <button class="filter-tab" data-filter="site-web">Site web</button>
       <button class="filter-tab" data-filter="identite-visuelle">Identité visuelle</button>
       <button class="filter-tab" data-filter="support-physique">Support physique</button>
-      <button class="filter-tab" data-filter="referencement">Référencement</button>
     </div>
 
     <div id="portfolio-loading" style="text-align:center;padding:80px 0;color:var(--gris-moyen);font-size:0.95rem;">Chargement des projets…</div>
@@ -121,13 +120,13 @@
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
       <div>
         <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
-        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, graphisme et GEO pour PMEs et indépendants. Testez avant de payer.</p>
-        <div style="margin-top:20px;"><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, identité visuelle et supports physiques pour PMEs et indépendants. Testez avant de payer.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
       </div>
       <div>
         <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
-          <a href="site-vitrine.html">Site vitrine</a><a href="site-dynamique.html">Site dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a>
+          <a href="site-web.html">Site web</a><a href="site-ecommerce.html">E-commerce</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a>
         </div>
       </div>
       <div>
@@ -163,7 +162,7 @@
     'site-web':          'Site web',
     'identite-visuelle': 'Identité visuelle',
     'support-physique':  'Support physique',
-    'referencement':     'Référencement',
+    'referencement':     'Site web',
   };
 
   let allProjects = [];
@@ -184,11 +183,12 @@
   // ─── Build portfolio card ─────────────────────────────────────────────────
   function buildCard(project) {
     const img   = sanityImg(project.coverImage?.asset?._ref, 600);
-    const type  = TYPE_LABELS[project.projectType] || project.projectType || '';
+    const normalizedType = project.projectType === 'referencement' ? 'site-web' : project.projectType;
+    const type  = TYPE_LABELS[normalizedType] || normalizedType || '';
     const slug  = project.slug?.current || project._id;
 
     return `
-      <article class="portfolio-card" data-type="${project.projectType || 'all'}" data-slug="${slug}">
+      <article class="portfolio-card" data-type="${normalizedType || 'all'}" data-slug="${slug}">
         <div class="portfolio-card__img-wrap">
           ${img
             ? `<img src="${img}" alt="${project.title || ''}" class="portfolio-card__img" loading="lazy" />`
@@ -217,7 +217,8 @@
     const project = allProjects.find((p) => (p.slug?.current || p._id) === slug);
     if (!project) return;
 
-    const type  = TYPE_LABELS[project.projectType] || project.projectType || '';
+    const normalizedType = project.projectType === 'referencement' ? 'site-web' : project.projectType;
+    const type  = TYPE_LABELS[normalizedType] || normalizedType || '';
     document.getElementById('pmodal-type').textContent  = type;
     document.getElementById('pmodal-title').textContent = project.title || '';
     document.getElementById('pmodal-desc').textContent  = project.shortDescription || '';
@@ -301,15 +302,6 @@
     }
   });
 
-  // Filter tabs
-  document.querySelectorAll('.filter-tab').forEach((tab) => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.filter-tab').forEach((t) => t.classList.remove('active'));
-      tab.classList.add('active');
-      applyFilter(tab.dataset.filter);
-    });
-  });
-
   // Delegate card CTA clicks
   document.getElementById('portfolio-grid').addEventListener('click', (e) => {
     const btn = e.target.closest('.pcard-open-btn');
@@ -345,6 +337,7 @@
 
       grid.innerHTML = allProjects.map(buildCard).join('');
       grid.style.display = 'grid';
+      document.dispatchEvent(new CustomEvent('portfolio:refresh-filters'));
     } catch (e) {
       loading.style.display = 'none';
       error.style.display   = 'block';

@@ -19,7 +19,6 @@
             <a href="site-web.html">Site web</a>
             <a href="identite-visuelle.html">Identité visuelle</a>
             <a href="support-catalogue.html">Supports physiques</a>
-            <a href="tarifs.html">Tarifs</a>
           </div>
         </div>
       </div>
@@ -38,7 +37,6 @@
     <a href="site-web.html">Site web</a>
     <a href="identite-visuelle.html">Identité visuelle</a>
     <a href="support-catalogue.html">Supports physiques</a>
-    <a href="tarifs.html">Tarifs</a>
   </div>
   <a href="kit-gratuit-de-l'arpenteur.html">Kit Gratuit de l'Arpenteur</a>
   <a href="Réalisations.html">Réalisations</a>
@@ -52,7 +50,7 @@
     <div class="footer__main">
       <div class="footer__brand">
         <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" />
-        <p>Studio créatif anti-agence pour PMEs et indépendants. Web, Graphisme, GEO.</p>
+        <p>Studio créatif anti-agence pour PMEs et indépendants. Site web, identité visuelle et supports physiques.</p>
       </div>
       <div class="footer__col">
         <h5>Navigation</h5>
@@ -66,12 +64,10 @@
         <a href="site-web.html">Site web</a>
         <a href="identite-visuelle.html">Identité visuelle</a>
         <a href="support-catalogue.html">Supports physiques</a>
-        <a href="tarifs.html">Tarifs</a>
       </div>
       <div class="footer__col">
         <h5>Ressources</h5>
         <a href="kit-gratuit-de-l'arpenteur.html">Kit Gratuit de l'Arpenteur</a>
-        <a href="faq.html">FAQ</a>
       </div>
     </div>
     <div class="footer__bottom">
@@ -91,8 +87,6 @@
     "site-vitrine.html": "site-web.html",
     "site-dynamique.html": "site-web.html",
     "site-ecommerce.html": "site-web.html",
-    "referencement-seo.html": "referencement.html",
-    "referencement-geo.html": "referencement.html",
   };
 
   function normalizeInterPageLinks() {
@@ -141,12 +135,39 @@
       }
     }
 
+    const footerBottom = body.querySelector(".footer__bottom");
+    if (
+      footerBottom &&
+      !footerBottom.querySelector('a[href="mentions-legales.html"]')
+    ) {
+      const legalLinks = document.createElement("div");
+      legalLinks.innerHTML =
+        '<a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Politique de confidentialité</a>';
+      footerBottom.appendChild(legalLinks);
+      const mentionsLink = legalLinks.querySelector(
+        'a[href="mentions-legales.html"]',
+      );
+      const privacyLink = legalLinks.querySelector(
+        'a[href="politique-confidentialite.html"]',
+      );
+      if (mentionsLink) {
+        mentionsLink.textContent =
+          "Mentions l" + String.fromCharCode(233) + "gales";
+      }
+      if (privacyLink) {
+        privacyLink.textContent =
+          "Politique de confidentialit" + String.fromCharCode(233);
+      }
+    }
+
     normalizeInterPageLinks();
   }
 
   /* ---------- NAVBAR ---------- */
   function initNavbar() {
     const navbar = document.querySelector(".navbar");
+    const navbarInner = document.querySelector(".navbar__inner");
+    const navbarNav = document.querySelector(".navbar__nav");
     const burger = document.querySelector(".navbar__burger");
     const mobileNav = document.querySelector(".navbar__mobile");
     const dropdownTrigger = document.querySelector(".navbar__dropdown-trigger");
@@ -157,6 +178,60 @@
     const mobileSubnav = document.querySelector(".mobile-subnav");
 
     if (!navbar) return;
+
+    // Desktop CTA on the right
+    if (navbarInner && navbarNav) {
+      let navbarRight = navbarInner.querySelector(".navbar__right");
+      if (!navbarRight) {
+        navbarRight = document.createElement("div");
+        navbarRight.className = "navbar__right";
+        navbarInner.insertBefore(navbarRight, burger);
+      }
+
+      const desktopContact = navbarNav.querySelector('a[href="contact.html"]');
+      if (desktopContact) {
+        desktopContact.className = "btn btn-cta1 btn-sm navbar__cta";
+        navbarRight.replaceChildren(desktopContact);
+      }
+    }
+
+    const serviceIcons = {
+      "site-web.html": "assets/icon-siteweb.svg",
+      "identite-visuelle.html": "assets/icon-graphisme.svg",
+      "support-catalogue.html": "assets/icon-identite-visuelle.svg",
+    };
+
+    const decorateServiceLink = (link, iconClassName) => {
+      const href = (link.getAttribute("href") || "").trim();
+      if (!serviceIcons[href] || link.querySelector(`.${iconClassName}`)) return;
+
+      const label = link.textContent.trim();
+      link.textContent = "";
+
+      const icon = document.createElement("img");
+      icon.src = serviceIcons[href];
+      icon.alt = "";
+      icon.className = iconClassName;
+
+      const text = document.createElement("span");
+      text.textContent = label;
+
+      link.append(icon, text);
+    };
+
+    // Desktop services dropdown: icons + richer rows
+    if (dropdown) {
+      dropdown
+        .querySelectorAll(".nav-dropdown__col a")
+        .forEach((link) => decorateServiceLink(link, "nav-icon"));
+    }
+
+    // Mobile services sub-menu: same icon treatment
+    if (mobileSubnav) {
+      mobileSubnav
+        .querySelectorAll('a[href]')
+        .forEach((link) => decorateServiceLink(link, "mobile-nav-icon"));
+    }
 
     // Scroll class
     const onScroll = () => {
@@ -194,8 +269,9 @@
     // Mobile sub-menu toggle
     if (mobileServicesToggle && mobileSubnav) {
       mobileServicesToggle.addEventListener("click", () => {
-        mobileSubnav.style.display =
-          mobileSubnav.style.display === "none" ? "block" : "none";
+        const isOpen = mobileSubnav.style.display !== "none";
+        mobileSubnav.style.display = isOpen ? "none" : "block";
+        mobileServicesToggle.classList.toggle("open", !isOpen);
       });
     }
 
@@ -203,7 +279,7 @@
     const currentPath =
       window.location.pathname.split("/").pop() || "index.html";
     document
-      .querySelectorAll(".navbar__nav a, .navbar__mobile a")
+      .querySelectorAll(".navbar__nav a, .navbar__right a, .navbar__mobile a")
       .forEach((link) => {
         const href = link.getAttribute("href");
         if (href && href.includes(currentPath)) {
@@ -219,6 +295,14 @@
       const answer = item.querySelector(".faq-answer");
       if (!question || !answer) return;
 
+      if (!question.querySelector(".icon")) {
+        const icon = document.createElement("span");
+        icon.className = "icon";
+        icon.setAttribute("aria-hidden", "true");
+        question.appendChild(icon);
+      }
+      question.setAttribute("aria-expanded", "false");
+
       question.addEventListener("click", () => {
         const isOpen = item.classList.contains("open");
         // Close all
@@ -226,11 +310,14 @@
           openItem.classList.remove("open");
           const ans = openItem.querySelector(".faq-answer");
           if (ans) ans.style.maxHeight = "0";
+          const q = openItem.querySelector(".faq-question");
+          if (q) q.setAttribute("aria-expanded", "false");
         });
         // Open clicked
         if (!isOpen) {
           item.classList.add("open");
           answer.style.maxHeight = answer.scrollHeight + "px";
+          question.setAttribute("aria-expanded", "true");
         }
       });
     });
@@ -245,13 +332,15 @@
 
       header.addEventListener("click", () => {
         const isOpen = item.classList.contains("open");
-        document.querySelectorAll(".prestation-item.open").forEach((openItem) => {
-          openItem.classList.remove("open");
-          const b = openItem.querySelector(".prestation-body");
-          if (b) b.style.maxHeight = "0";
-          const h = openItem.querySelector(".prestation-header");
-          if (h) h.setAttribute("aria-expanded", "false");
-        });
+        document
+          .querySelectorAll(".prestation-item.open")
+          .forEach((openItem) => {
+            openItem.classList.remove("open");
+            const b = openItem.querySelector(".prestation-body");
+            if (b) b.style.maxHeight = "0";
+            const h = openItem.querySelector(".prestation-header");
+            if (h) h.setAttribute("aria-expanded", "false");
+          });
         if (!isOpen) {
           item.classList.add("open");
           body.style.maxHeight = body.scrollHeight + "px";
@@ -283,23 +372,35 @@
     const tabs = document.querySelectorAll(".filter-tab");
     if (!tabs.length) return;
 
+    const applyPortfolioFilter = (filterValue) => {
+      document
+        .querySelectorAll(".portfolio-card, .filter-item")
+        .forEach((card) => {
+          const cardFilter = (
+            card.dataset.type ||
+            card.dataset.category ||
+            ""
+          ).trim();
+          const matches =
+            filterValue === "all" ||
+            !filterValue ||
+            cardFilter === filterValue;
+
+          card.style.display = matches ? "" : "none";
+        });
+    };
+
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
-
-        const cat = tab.dataset.filter;
-        document
-          .querySelectorAll(".portfolio-card, .filter-item")
-          .forEach((card) => {
-            const cardCat = card.dataset.category;
-            if (cat === "all" || !cat || cardCat === cat || !cardCat) {
-              card.style.display = "";
-            } else {
-              card.style.display = "none";
-            }
-          });
+        applyPortfolioFilter(tab.dataset.filter);
       });
+    });
+
+    document.addEventListener("portfolio:refresh-filters", () => {
+      const activeTab = document.querySelector(".filter-tab.active");
+      applyPortfolioFilter(activeTab?.dataset.filter || "all");
     });
   }
 
@@ -312,6 +413,12 @@
         const submitBtn = form.querySelector("button[type=submit]");
         const success = form.querySelector(".form-success");
         const error = form.querySelector(".form-error");
+        const successDefault =
+          form.dataset.successDefault ||
+          "Votre message a bien ete envoye.";
+        const errorDefault =
+          form.dataset.errorDefault ||
+          "Impossible d'envoyer votre message pour le moment.";
 
         if (submitBtn) {
           submitBtn.disabled = true;
@@ -321,18 +428,55 @@
         const data = Object.fromEntries(new FormData(form));
 
         try {
-          await fetch(url, {
+          const response = await fetch(url, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json, text/plain;q=0.9, */*;q=0.8",
+            },
             body: JSON.stringify(data),
           });
-          if (success) success.style.display = "block";
-          if (error) error.style.display = "none";
+
+          const contentType = response.headers.get("content-type") || "";
+          let payload = null;
+
+          if (contentType.includes("application/json")) {
+            payload = await response.json();
+          } else {
+            const text = await response.text();
+            payload = text ? { message: text } : null;
+          }
+
+          const responseMessage =
+            payload?.message ||
+            payload?.data?.message ||
+            payload?.success ||
+            payload?.error ||
+            payload?.details;
+
+          if (!response.ok) {
+            throw new Error(responseMessage || errorDefault);
+          }
+
+          if (success) {
+            success.textContent = responseMessage || successDefault;
+            success.style.display = "block";
+          }
+          if (error) {
+            error.textContent = "";
+            error.style.display = "none";
+          }
           form.reset();
         } catch (err) {
-          if (error) error.style.display = "block";
-          if (success) success.style.display = "none";
+          if (error) {
+            error.textContent =
+              err instanceof Error && err.message ? err.message : errorDefault;
+            error.style.display = "block";
+          }
+          if (success) {
+            success.textContent = "";
+            success.style.display = "none";
+          }
         } finally {
           if (submitBtn) {
             submitBtn.disabled = false;
@@ -553,6 +697,80 @@
         });
       });
     }
+
+    initKitOfferStack();
+  }
+
+  function initKitOfferStack() {
+    const list = document.querySelector(".kit-offers__list");
+    if (!list) return;
+
+    const cards = Array.from(list.querySelectorAll(".kit-offer-card"));
+    if (cards.length < 2) return;
+    let ticking = false;
+
+    cards.forEach((card, index) => {
+      card.style.zIndex = String(index + 1);
+    });
+
+    const resetCards = () => {
+      cards.forEach((card) => {
+        gsap.set(card, {
+          y: 0,
+          scale: 1,
+          rotate: 0,
+          boxShadow: "0 20px 60px rgba(22, 22, 22, 0.08)",
+        });
+      });
+    };
+
+    const updateCards = () => {
+      ticking = false;
+
+      const stickyTop = parseFloat(window.getComputedStyle(cards[0]).top) || 120;
+      const start = window.innerHeight * 0.88;
+      const end = stickyTop + 24;
+      const compact = window.innerWidth <= 860;
+      const yOffset = compact ? 22 : 34;
+      const scaleOffset = compact ? 0.032 : 0.05;
+      const rotateOffset = compact ? 0.55 : 1.1;
+
+      cards.forEach((card, index) => {
+        if (index === cards.length - 1) {
+          gsap.set(card, {
+            y: 0,
+            scale: 1,
+            rotate: 0,
+            boxShadow: "0 20px 60px rgba(22, 22, 22, 0.08)",
+          });
+          return;
+        }
+
+        const nextCard = cards[index + 1];
+        const nextTop = nextCard.getBoundingClientRect().top;
+        const rawProgress = 1 - (nextTop - end) / (start - end);
+        const progress = gsap.utils.clamp(0, 1, rawProgress);
+
+        gsap.set(card, {
+          y: -yOffset * progress,
+          scale: 1 - scaleOffset * progress,
+          rotate: -rotateOffset * progress,
+          boxShadow: `0 ${20 - progress * 8}px ${60 - progress * 18}px rgba(22, 22, 22, ${0.08 - progress * 0.03})`,
+        });
+      });
+    };
+
+    const requestTick = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateCards);
+    };
+
+    resetCards();
+    requestTick();
+
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick);
   }
 
   /* ---------- COUNTER ANIMATION ---------- */

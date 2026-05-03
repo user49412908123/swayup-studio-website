@@ -16,6 +16,48 @@
     "areaServed": "BE"
   }
   </script>
+  <style>
+    #prestations .prestation-body__text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    #prestations .prestation-body__cta {
+      margin-top: 24px;
+      align-self: flex-start;
+    }
+    #prestations .prestation-body__image {
+      display: flex;
+    }
+
+    @media (max-width: 900px) {
+      #prestations .prestation-body__inner {
+        grid-template-columns: minmax(0, 1fr) 160px;
+        gap: 20px;
+        align-items: start;
+      }
+      #prestations .prestation-body__image {
+        display: flex !important;
+        justify-content: center;
+        align-self: center;
+      }
+      #prestations .prestation-body__image img {
+        max-width: 150px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      #prestations .prestation-body__inner {
+        grid-template-columns: 1fr;
+      }
+      #prestations .prestation-body__image {
+        justify-content: flex-start;
+      }
+      #prestations .prestation-body__image img {
+        max-width: 132px;
+      }
+    }
+  </style>
 </head>
 <body class="page-wrapper">
 
@@ -69,20 +111,20 @@
   <div class="container">
     <div class="stats-row reveal">
       <div class="stat-item">
-        <div class="stat-item__value" data-count="7" data-suffix=" sec">7 sec</div>
-        <div class="stat-item__label">Pour former une première impression</div>
+        <div class="stat-item__value" data-count="2" data-suffix=" sec">2 sec</div>
+        <div class="stat-item__label">Pour donner envie… ou perdre un client</div>
       </div>
       <div class="stat-item">
-        <div class="stat-item__value" data-count="80" data-suffix="%">80%</div>
-        <div class="stat-item__label">De mémorisation supplémentaire</div>
+        <div class="stat-item__value" data-count="157" data-suffix="">157</div>
+        <div class="stat-item__label">Entreprise avec qui rivaliser</div>
       </div>
       <div class="stat-item">
-        <div class="stat-item__value" data-count="3" data-suffix="×">3×</div>
-        <div class="stat-item__label">Plus de chances d'être perçu professionnel</div>
+        <div class="stat-item__value" data-count="100" data-suffix="%">100%</div>
+        <div class="stat-item__label">De votre crédibilité passe par votre image</div>
       </div>
       <div class="stat-item">
-        <div class="stat-item__value" data-count="2.5" data-decimals="1" data-suffix="×">2.5×</div>
-        <div class="stat-item__label">Moins cher qu'une agence</div>
+        <div class="stat-item__value" data-count="0">0</div>
+        <div class="stat-item__label">Hasard dans votre image</div>
       </div>
     </div>
   </div>
@@ -120,6 +162,7 @@
                 <li>Fichiers sources livrés : AI, SVG, PNG transparent, PDF</li>
                 <li>Premier concept livré gratuitement, avant engagement</li>
               </ul>
+              <a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 prestation-body__cta">Activer cette prestation</a>
             </div>
             <div class="prestation-body__image">
               <img src="assets/ARPENTEUR-MESURE-DESSINE1.svg" alt="Création de logo" />
@@ -152,6 +195,7 @@
                 <li>Charte graphique avec règles d'utilisation</li>
                 <li>Maquettes d'application sur vos supports types</li>
               </ul>
+              <a href="contact.html" class="btn btn-cta1 prestation-body__cta">Activer cette prestation</a>
             </div>
             <div class="prestation-body__image">
               <img src="assets/ARPENTEUR-REFLECHIT-PERPLEXE-2.svg" alt="Identité visuelle complète" />
@@ -184,9 +228,43 @@
                 <li>Templates Canva personnalisés livrés et modifiables</li>
                 <li>Guide d'utilisation inclus</li>
               </ul>
+              <a href="contact.html" class="btn btn-cta1 prestation-body__cta">Activer cette prestation</a>
             </div>
             <div class="prestation-body__image">
               <img src="assets/ARPENTEUR-CURIEUX-REGARDE-CIEL-3.svg" alt="Templates réseaux sociaux" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prestation-item">
+        <button class="prestation-header" aria-expanded="false">
+          <div class="prestation-header__left">
+            <img src="assets/icon-kit-gratuit.svg" alt="" class="prestation-icon" />
+            <div>
+              <h3 class="prestation-title">Design support publicitaire</h3>
+              <p class="prestation-desc">Conception de supports physiques utiles au quotidien pour les indépendants, commerces et petites structures.</p>
+            </div>
+          </div>
+          <span class="prestation-toggle" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+        </button>
+        <div class="prestation-body">
+          <div class="prestation-body__inner">
+            <div class="prestation-body__text">
+              <p>On conçoit tous les supports physiques qui font vivre votre marque sur le terrain: ceux que vos clients prennent en main, voient sur un comptoir ou gardent après une rencontre.</p>
+              <ul>
+                <li>Cartes de visite, flyers, dépliants, brochures et affiches</li>
+                <li>Menus, chèques cadeaux, étiquettes, stickers et packaging simple</li>
+                <li>Bâches, roll-up, panneaux, enseignes légères et visuels vitrine</li>
+                <li>Supports vraiment utilisés par les indépendants: devis, chemises, cartes rendez-vous, présentoirs</li>
+                <li>Impression possible sur certains formats via nos partenaires, si vous voulez un service plus complet</li>
+              </ul>
+              <a href="contact.html" class="btn btn-cta1 prestation-body__cta">Activer cette prestation</a>
+            </div>
+            <div class="prestation-body__image">
+              <img src="assets/ARPENTEUR-PREND-QUELQUE-CHOISE-ENMAIN-4.svg" alt="Design de supports publicitaires physiques" />
             </div>
           </div>
         </div>
@@ -233,39 +311,41 @@
 
 
 <!-- PROCESSUS -->
-<section class="section reveal">
+<section class="section reveal kit-process">
   <div class="container">
-    <div class="section-header center" style="text-align:center;">
-      <p class="label">Comment on travaille</p>
-      <h2>Du brief au<br /><em style="font-style:italic;">fichier final</em></h2>
-    </div>
-    <div class="timeline" style="margin-top:56px;">
-      <div class="timeline-item reveal">
-        <div class="timeline-item__num">01</div>
-        <div>
-          <h4>Brief de marque</h4>
-          <p>On vous pose les bonnes questions sur votre activité, vos clients, vos valeurs, vos références visuelles et ce que vous voulez éviter. Ce brief nourrit toutes les décisions créatives.</p>
-        </div>
+    <div class="kit-process__frame">
+      <div class="kit-process__intro">
+        <p class="label">Comment on travaille</p>
+        <h2>Du brief au<br /><em style="font-style:italic;">fichier final</em></h2>
       </div>
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-item__num">02</div>
-        <div>
-          <h4>Création</h4>
-          <p>On propose 2 à 3 directions créatives différentes. Pas des variantes mineures — de vraies alternatives qui explorent des territoires visuels distincts.</p>
+      <div class="kit-process__timeline">
+        <div class="kit-process__step reveal">
+          <div class="kit-process__num">01</div>
+          <div class="kit-process__content">
+            <h4>Brief de marque</h4>
+            <p>On vous pose les bonnes questions sur votre activité, vos clients, vos valeurs, vos références visuelles et ce que vous voulez éviter. Ce brief nourrit toutes les décisions créatives.</p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-item reveal reveal-delay-2">
-        <div class="timeline-item__num">03</div>
-        <div>
-          <h4>Révisions</h4>
-          <p>Vous choisissez une direction et on l'affine. Deux rondes de révisions incluses pour que le résultat soit exactement ce que vous souhaitez.</p>
+        <div class="kit-process__step reveal reveal-delay-1">
+          <div class="kit-process__num">02</div>
+          <div class="kit-process__content">
+            <h4>Création</h4>
+            <p>On propose 2 à 3 directions créatives différentes. Pas des variantes mineures — de vraies alternatives qui explorent des territoires visuels distincts.</p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-item reveal reveal-delay-3">
-        <div class="timeline-item__num">04</div>
-        <div>
-          <h4>Livraison des fichiers sources</h4>
-          <p>Vous recevez tous les fichiers dans tous les formats dont vous aurez besoin : AI (modifiable), SVG, PNG transparent, PDF. Vous êtes propriétaire de votre identité.</p>
+        <div class="kit-process__step reveal reveal-delay-2">
+          <div class="kit-process__num">03</div>
+          <div class="kit-process__content">
+            <h4>Révisions</h4>
+            <p>Vous choisissez une direction et on l'affine. Deux rondes de révisions incluses pour que le résultat soit exactement ce que vous souhaitez.</p>
+          </div>
+        </div>
+        <div class="kit-process__step reveal reveal-delay-3">
+          <div class="kit-process__num">04</div>
+          <div class="kit-process__content">
+            <h4>Livraison des fichiers sources</h4>
+            <p>Vous recevez tous les fichiers dans tous les formats dont vous aurez besoin : AI (modifiable), SVG, PNG transparent, PDF. Vous êtes propriétaire de votre identité.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -273,25 +353,7 @@
 </section>
 
 
-<!-- TARIFS -->
-<section class="section reveal">
-  <div class="container">
-    <div class="section-header center" style="text-align:center;">
-      <p class="label">Tarifs</p>
-      <h2>2,5× moins cher<br /><em style="font-style:italic;">qu'une agence</em></h2>
-      <p class="lead" style="max-width:560px;margin:16px auto 0;">Pas de forfait standardisé. Chaque projet est devisé selon sa complexité réelle. Et votre premier logo est livré gratuitement, avant que vous décidiez quoi que ce soit.</p>
-    </div>
-    <div style="margin-top:48px;max-width:720px;margin-inline:auto;background:var(--gris-clair);border-radius:var(--radius-card);padding:40px;">
-      <p style="font-size:1.05rem;line-height:1.7;color:#3a3a3a;">Un logo pour un artisan solo n'as pas les mêmes besoins qu'une identité visuelle complète pour une PME de 20 personnes. On établit un devis clair après avoir compris votre projet — sans engagement.</p>
-      <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;">
-        <a href="kit-gratuit.html" class="btn btn-cta1">Logo gratuit — commencer</a>
-        <a href="contact.html" class="btn btn-cta4">Demander un devis</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="kit-section reveal">
+<section class="kit-section kit-section--centered reveal">
   <div class="container">
     <div style="text-align:center;max-width:640px;margin-inline:auto;">
       <p class="label" style="color:var(--orange);">Sans engagement</p>
@@ -361,13 +423,13 @@
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
       <div>
         <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
-        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, graphisme et GEO pour PMEs et indépendants. Testez avant de payer.</p>
-        <div style="margin-top:20px;"><a href="kit-gratuit.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, identité visuelle et supports physiques pour PMEs et indépendants. Testez avant de payer.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
       </div>
       <div>
         <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
-          <a href="site-vitrine.html">Site vitrine</a><a href="site-dynamique.html">Site dynamique</a><a href="site-ecommerce.html">E-commerce</a><a href="referencement-seo.html">SEO</a><a href="referencement-geo.html">GEO</a>
+          <a href="site-web.html">Site web</a><a href="site-ecommerce.html">E-commerce</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a>
         </div>
       </div>
       <div>

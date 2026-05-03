@@ -53,8 +53,6 @@
   line-height: 0.85;
   letter-spacing: clamp(-2.5px, -0.2vw, -3.8px);
   color: var(--noir);
-  font-family: "ITC Garamond Bold Condensed", "Times New Roman", serif;
-  font-weight: 700;
 }
 
 .hero-title--bold {
@@ -70,10 +68,12 @@
   white-space: nowrap; /* force 1 seule ligne sur desktop */
 }
 
+.hero-index-book
+
 /* Description — halyard light, plus contenu sur desktop */
 .premium-hero__desc {
   max-width: 640px;
-  margin-top: 36px;
+  margin-top: 44px;
   font-family: "halyard-text", system-ui, sans-serif;
   font-weight: 300;
   font-size: clamp(15px, 1.1vw, 20px);
