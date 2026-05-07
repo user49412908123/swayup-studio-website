@@ -188,6 +188,13 @@
         linear-gradient(135deg, rgba(238, 105, 79, 0.22), rgba(255, 255, 255, 0.88) 42%, rgba(22, 22, 22, 0.08) 100%);
     }
 
+    .support-product__media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
     .support-product__shape,
     .support-product__shape::before,
     .support-product__shape::after {
@@ -254,6 +261,28 @@
       margin-top: auto;
       justify-content: center;
       width: 100%;
+    }
+
+    .support-product--custom {
+      min-height: auto;
+      padding: 24px 22px;
+      border-radius: 18px;
+      box-shadow: none;
+      background: linear-gradient(135deg, rgba(238, 105, 79, 0.1), rgba(255, 255, 255, 0.96));
+      grid-column: span 2;
+    }
+
+    .support-product--custom:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .support-product--custom .support-product__body {
+      padding: 0;
+    }
+
+    .support-product--custom .support-product__body p {
+      margin-bottom: 20px;
     }
 
     .support-kit {
@@ -388,6 +417,10 @@
       .support-catalog__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .support-product--custom {
+        grid-column: span 2;
+      }
     }
 
     @media (max-width: 640px) {
@@ -426,6 +459,10 @@
 
       .support-catalog__grid {
         grid-template-columns: 1fr;
+      }
+
+      .support-product--custom {
+        grid-column: span 1;
       }
 
       .support-kit__list li {
@@ -589,7 +626,7 @@
 
     <div class="support-catalog__grid">
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-carte-visite.svg" alt="Exemple de carte de visite" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Cartes de visite</h3>
           <p>Recto/verso, finitions premium et format pro pour laisser une première impression nette et crédible.</p>
@@ -598,7 +635,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-carte-flyers.svg" alt="Exemple de flyer" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Flyers</h3>
           <p>A5, A4, simple ou recto/verso pour vos offres, ouvertures, promos locales ou distribution terrain.</p>
@@ -607,7 +644,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-carte-affiche.svg" alt="Exemple d'affiche" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Affiches</h3>
           <p>Formats événementiels ou vitrines pour capter le regard avec un message lisible à distance.</p>
@@ -616,7 +653,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Stickers et autocollants.svg" alt="Exemple de stickers et autocollants" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Stickers et autocollants</h3>
           <p>Découpe libre, étiquettes produits ou vitrophanie pour ajouter votre marque partout où elle compte.</p>
@@ -625,7 +662,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-carte-Goodies.svg" alt="Exemple de goodies" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Goodies</h3>
           <p>Stylos, carnets, mugs ou tote bags utiles, cohérents et pensés pour prolonger votre image de marque.</p>
@@ -634,7 +671,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Packaging.svg" alt="Exemple de packaging" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Packaging</h3>
           <p>Boîtes, pochettes, étiquettes et détails d’unboxing pour transformer la réception en expérience.</p>
@@ -644,25 +681,25 @@
 
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Menus de restaurant.svg" alt="Exemple de menu de service" loading="lazy" /></div>
         <div class="support-product__body">
-          <h3>Menus de restaurant</h3>
-          <p>Menus papier, triptyques ou formats QR pensés pour rester lisibles, appétissants et faciles à mettre à jour.</p>
+          <h3>Menus de service</h3>
+          <p>Menus de prestations, tarifs ou cartes de services pensés pour rester clairs, rassurants et simples à mettre à jour.</p>
           <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
         </div>
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Enseignes.svg" alt="Exemple d'enseigne" loading="lazy" /></div>
         <div class="support-product__body">
-          <h3>Calendriers</h3>
-          <p>Calendriers muraux ou de bureau pour installer votre marque dans le quotidien pendant 12 mois.</p>
+          <h3>Enseignes</h3>
+          <p>Signalétique de façade, panneaux et habillages visibles pour rendre votre activité identifiable dès le premier regard.</p>
           <a href="contact.html" class="btn btn-cta4 btn-sm">Demander un devis</a>
         </div>
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Vêtements professionnels.svg" alt="Exemple de vêtements professionnels" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Vêtements professionnels</h3>
           <p>Broderie ou sérigraphie pour rendre votre équipe identifiable, propre et cohérente sur le terrain.</p>
@@ -671,7 +708,7 @@
       </article>
 
       <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+        <div class="support-product__media"><img src="assets/image-catalogue-Cartes de fidélité.svg" alt="Exemple de carte de fidélité" loading="lazy" /></div>
         <div class="support-product__body">
           <h3>Cartes de fidélité</h3>
           <p>Un support simple pour encourager le retour client et structurer une mécanique de fidélisation locale.</p>
@@ -679,8 +716,7 @@
         </div>
       </article>
 
-      <article class="support-product">
-        <div class="support-product__media"><span class="support-product__shape"></span></div>
+      <article class="support-product support-product--custom">
         <div class="support-product__body">
           <h3>Support personnalisé</h3>
           <p>Un besoin spécifique hors catalogue ? On conçoit aussi des supports sur mesure adaptés à votre activité, à votre usage et à vos contraintes terrain.</p>
