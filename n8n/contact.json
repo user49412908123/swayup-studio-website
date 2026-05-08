@@ -1,0 +1,78 @@
+{
+  "name": "Swayup - Contact Form",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "swayup/contact",
+        "responseMode": "responseNode"
+      },
+      "id": "cbf3f2bc-f286-4ecf-8ddd-0de0c00f22b4",
+      "name": "Contact Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = ($json && typeof $json === 'object') ? $json : {};\nconst body = (input.body && typeof input.body === 'object') ? input.body : input;\n\nconst toText = (value) => {\n  if (value === null || value === undefined) return '';\n  if (Array.isArray(value)) {\n    return value.map(toText).filter(Boolean).join(', ');\n  }\n  return String(value).replace(/\\s+/g, ' ').trim();\n};\n\nconst toLower = (value) => toText(value).toLowerCase();\n\nconst pick = (...keys) => {\n  for (const key of keys) {\n    if (Object.prototype.hasOwnProperty.call(body, key)) {\n      const value = toText(body[key]);\n      if (value) return value;\n    }\n  }\n  return '';\n};\n\nconst normalizeService = (value) => {\n  const raw = toLower(value);\n  if (!raw) return 'non-renseigne';\n  if (raw.includes('site')) return 'site-web';\n  if (raw.includes('identite') || raw.includes('logo') || raw.includes('artist')) return 'identite-visuelle';\n  if (raw.includes('support') || raw.includes('print') || raw.includes('physique')) return 'support-physique';\n  if (raw.includes('kit') || raw.includes('arpenteur')) return 'kit-arpenteur';\n  return 'autre';\n};\n\nconst normalizeBudget = (value) => {\n  const raw = toLower(value);\n  if (!raw) return 'non-renseigne';\n  if (raw.includes('moins') || raw.includes('1000')) return 'moins-1000';\n  if (raw.includes('3000') && raw.includes('1000')) return '1000-3000';\n  if (raw.includes('6000') && raw.includes('3000')) return '3000-6000';\n  if (raw.includes('plus') || raw.includes('6000')) return 'plus-6000';\n  if (raw.includes('sais pas') || raw.includes('ne-sait-pas') || raw.includes('inconnu')) return 'ne-sait-pas';\n  return 'autre';\n};\n\nconst firstName = pick('prenom', 'firstName', 'firstname', 'first_name', 'name');\nconst lastName = pick('nom', 'lastName', 'lastname', 'last_name', 'surname');\nconst email = toLower(pick('email', 'mail', 'emailAddress', 'email_address'));\nconst phone = pick('telephone', 'phone', 'tel', 'mobile', 'numero');\nconst serviceRaw = pick('service', 'project_type', 'type', 'besoin', 'besoins');\nconst budgetRaw = pick('budget', 'budget_approximatif', 'price_range', 'priceRange');\nconst message = pick('message', 'note', 'notes', 'details', 'description');\n\nconst knownKeys = new Set([\n  'prenom', 'firstName', 'firstname', 'first_name', 'name',\n  'nom', 'lastName', 'lastname', 'last_name', 'surname',\n  'email', 'mail', 'emailAddress', 'email_address',\n  'telephone', 'phone', 'tel', 'mobile', 'numero',\n  'service', 'project_type', 'type', 'besoin', 'besoins',\n  'budget', 'budget_approximatif', 'price_range', 'priceRange',\n  'message', 'note', 'notes', 'details', 'description'\n]);\n\nconst extras = {};\nObject.keys(body || {}).forEach((key) => {\n  if (!knownKeys.has(key)) {\n    extras[key] = toText(body[key]);\n  }\n});\n\nconst hasMeaningfulData = [firstName, lastName, email, phone, serviceRaw, budgetRaw, message].some(Boolean);\nconst receivedAt = new Date().toISOString();\nconst reference = `ct-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;\n\nconst responseBody = hasMeaningfulData\n  ? {\n      status: 'success',\n      message: 'Merci, votre message est bien recu. Nous revenons vers vous sous 24h ouvrables.',\n      data: { source: 'contact', reference, receivedAt }\n    }\n  : {\n      status: 'error',\n      message: 'Nous n\\'avons pas pu lire correctement votre formulaire. Verifiez les champs principaux puis reessayez.',\n      data: { source: 'contact', reference, receivedAt }\n    };\n\nreturn [{\n  json: {\n    source: 'contact',\n    reference,\n    receivedAt,\n    normalizedPayload: {\n      firstName,\n      lastName,\n      email,\n      phone,\n      service: normalizeService(serviceRaw),\n      serviceRaw: toText(serviceRaw),\n      budget: normalizeBudget(budgetRaw),\n      budgetRaw: toText(budgetRaw),\n      message,\n      extras\n    },\n    rawPayload: body,\n    responseCode: hasMeaningfulData ? 200 : 422,\n    responseBody\n  }\n}];"
+      },
+      "id": "4a41ebf0-831e-43fe-ab6f-8df865455843",
+      "name": "Normalize Contact Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.responseBody }}",
+        "options": {
+          "responseCode": "={{ $json.responseCode }}"
+        }
+      },
+      "id": "9476523d-6180-492f-a876-b6638990194a",
+      "name": "Respond Contact",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.3,
+      "position": [
+        20,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Contact Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Contact Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Contact Payload": {
+      "main": [
+        [
+          {
+            "node": "Respond Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

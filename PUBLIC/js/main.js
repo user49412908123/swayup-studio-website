@@ -411,8 +411,12 @@
         e.preventDefault();
         const url = form.dataset.webhook;
         const submitBtn = form.querySelector("button[type=submit]");
+        const pending = form.querySelector(".form-pending");
         const success = form.querySelector(".form-success");
         const error = form.querySelector(".form-error");
+        const pendingDefault =
+          form.dataset.pendingDefault ||
+          "Votre demande est en cours d'envoi. Merci de patienter quelques secondes.";
         const successDefault =
           form.dataset.successDefault ||
           "Votre message a bien ete envoye.";
@@ -423,6 +427,18 @@
         if (submitBtn) {
           submitBtn.disabled = true;
           submitBtn.textContent = "Envoi en cours...";
+        }
+        if (pending) {
+          pending.textContent = pendingDefault;
+          pending.style.display = "block";
+        }
+        if (success) {
+          success.textContent = "";
+          success.style.display = "none";
+        }
+        if (error) {
+          error.textContent = "";
+          error.style.display = "none";
         }
 
         const data = Object.fromEntries(new FormData(form));
@@ -458,6 +474,10 @@
             throw new Error(responseMessage || errorDefault);
           }
 
+          if (pending) {
+            pending.textContent = "";
+            pending.style.display = "none";
+          }
           if (success) {
             success.textContent = responseMessage || successDefault;
             success.style.display = "block";
@@ -468,6 +488,10 @@
           }
           form.reset();
         } catch (err) {
+          if (pending) {
+            pending.textContent = "";
+            pending.style.display = "none";
+          }
           if (error) {
             error.textContent =
               err instanceof Error && err.message ? err.message : errorDefault;

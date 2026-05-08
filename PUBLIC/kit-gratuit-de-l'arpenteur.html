@@ -396,7 +396,7 @@
       <p class="lead" style="max-width:480px;margin:16px auto 0;">15 secondes. Pas de carte bancaire. Pas d'engagement.</p>
     </div>
     <div style="max-width:680px;margin-inline:auto;background:var(--blanc);border-radius:var(--radius-card);padding:clamp(32px,5vw,56px);box-shadow:var(--shadow-card);">
-      <form data-webhook="https://n8n.swayup-artisan.com/webhook-test/7b589867-44e8-4a49-8e9e-d6fc272977f2" data-success-default="Votre demande a bien été envoyée. Nous revenons vers vous sous 24h ouvrées." data-error-default="Impossible d'envoyer votre demande pour le moment. Réessayez dans quelques instants." style="display:flex;flex-direction:column;gap:24px;">
+      <form data-webhook="https://n8n.swayup-artisan.com/webhook/swayup/kit-arpenteur" data-pending-default="Votre demande est en cours d'envoi. Merci de patienter quelques secondes." data-success-default="Votre demande a bien été envoyée. Nous revenons vers vous sous 24h ouvrées." data-error-default="Nous avons bien reçu votre tentative, mais un souci technique empêche la validation immédiate. Réessayez dans quelques instants." style="display:flex;flex-direction:column;gap:24px;">
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
           <div>
@@ -460,6 +460,7 @@
         <div>
           <button type="submit" class="btn btn-cta1" style="width:100%;justify-content:center;padding:16px 24px;font-size:1rem;">Envoyer le formulaire</button>
           <p style="font-size:0.78rem;color:var(--gris-moyen);margin-top:12px;text-align:center;">Pas de spam. Pas de revente de données. On vous répond sous 24h ouvrées.</p>
+          <p class="form-pending" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(22,22,22,0.06);border:1px solid rgba(22,22,22,0.16);color:#2d2d2d;text-align:center;"></p>
           <p class="form-success" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(46,125,50,0.08);border:1px solid rgba(46,125,50,0.22);color:#256029;text-align:center;"></p>
           <p class="form-error" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(176,0,32,0.08);border:1px solid rgba(176,0,32,0.18);color:#8a1538;text-align:center;"></p>
         </div>

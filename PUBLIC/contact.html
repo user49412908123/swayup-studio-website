@@ -6,6 +6,58 @@
   <title>Nous contacter | Swayup studio</title>
   <meta name="description" content="Contactez Swayup studio pour votre projet web, logo ou identité visuelle. Bruxelles, Belgique. Réponse sous 24h ouvrées. hello@swayupstudio.be" />
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-name-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .contact-field {
+      color: var(--noir);
+      -webkit-text-fill-color: var(--noir);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .contact-field::placeholder {
+      color: #7d7d7d;
+      opacity: 1;
+      -webkit-text-fill-color: #7d7d7d;
+    }
+
+    .contact-field option {
+      color: var(--noir);
+    }
+
+    .contact-field option[value=""] {
+      color: #7d7d7d;
+    }
+
+    @media (max-width: 1024px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .contact-sidebar {
+        position: static !important;
+        top: auto !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .contact-name-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -69,52 +121,49 @@
 <!-- CONTENU PRINCIPAL -->
 <section class="section">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:start;">
+    <div class="contact-layout">
 
       <!-- FORMULAIRE -->
       <div>
         <h3 style="margin-bottom:32px;">Envoyez-nous un message</h3>
-        <form data-webhook="https://n8n.swayup-artisan.com/webhook-test/4465efd0-d569-4609-9ccc-8a9555d5b29a" data-success-default="Votre message a bien été envoyé. Nous vous répondons sous 24h ouvrées." data-error-default="Impossible d'envoyer votre message pour le moment. Réessayez dans quelques instants." style="display:flex;flex-direction:column;gap:20px;">
+        <form data-webhook="https://n8n.swayup-artisan.com/webhook/swayup/contact" data-pending-default="Votre message est en cours d'envoi. Merci de patienter quelques secondes." data-success-default="Votre message a bien été envoyé. Nous vous répondons sous 24h ouvrées." data-error-default="Nous avons bien reçu votre tentative, mais un souci technique empêche la validation immédiate. Réessayez dans quelques instants." style="display:flex;flex-direction:column;gap:20px;">
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="contact-name-grid">
             <div>
               <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Prénom <span style="color:var(--orange);">*</span></label>
-              <input type="text" name="prenom" required placeholder="Jean" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
+              <input type="text" name="prenom" required placeholder="Jean" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
             </div>
             <div>
               <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Nom <span style="color:var(--orange);">*</span></label>
-              <input type="text" name="nom" required placeholder="Dupont" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
+              <input type="text" name="nom" required placeholder="Dupont" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
             </div>
           </div>
 
           <div>
             <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Email <span style="color:var(--orange);">*</span></label>
-            <input type="email" name="email" required placeholder="jean@exemple.be" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
+            <input type="email" name="email" required placeholder="jean@exemple.be" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
           </div>
 
           <div>
             <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Téléphone</label>
-            <input type="tel" name="telephone" placeholder="+32 4XX XX XX XX" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
+            <input type="tel" name="telephone" placeholder="+32 4XX XX XX XX" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'" />
           </div>
 
           <div>
             <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Service qui vous intéresse</label>
-            <select name="service" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'">
+            <select name="service" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'">
               <option value="">Sélectionner un service...</option>
-              <option value="site-vitrine">Site vitrine</option>
-              <option value="site-dynamique">Site dynamique</option>
-              <option value="e-commerce">E-commerce</option>
-              <option value="logo">Logo</option>
-              <option value="identite-visuelle">Identité visuelle</option>
-              <option value="supports-physiques">Supports physiques</option>
-              <option value="kit-gratuit">Kit Gratuit de l'Arpenteur</option>
-              <option value="autre">Autre / Je ne sais pas encore</option>
+              <option value="site-web">Site web</option>
+              <option value="identite-visuelle">Identité visuelle (logo/direction artistique,...)</option>
+              <option value="support-physique">Support physique</option>
+              <option value="kit-gratuit">Kit gratuit de l’arpenteur</option>
+              <option value="autre">Autre chose</option>
             </select>
           </div>
 
           <div>
             <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Budget approximatif</label>
-            <select name="budget" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'">
+            <select name="budget" class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'">
               <option value="">Sélectionner...</option>
               <option value="moins-1000">Moins de 1 000 €</option>
               <option value="1000-3000">1 000 – 3 000 €</option>
@@ -126,12 +175,13 @@
 
           <div>
             <label style="font-size:0.82rem;font-weight:600;letter-spacing:0.04em;display:block;margin-bottom:8px;">Votre message <span style="color:var(--orange);">*</span></label>
-            <textarea name="message" required rows="5" placeholder="Décrivez votre projet ou posez votre question..." style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);resize:vertical;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'"></textarea>
+            <textarea name="message" required rows="5" placeholder="Décrivez votre projet ou posez votre question..." class="contact-field" style="width:100%;padding:12px 16px;border:1px solid rgba(22,22,22,0.15);border-radius:8px;font-size:0.95rem;background:var(--fond);resize:vertical;" onfocus="this.style.borderColor='var(--orange)';this.style.outline='none'" onblur="this.style.borderColor='rgba(22,22,22,0.15)'"></textarea>
           </div>
 
           <div>
             <button type="submit" class="btn btn-cta1" style="width:100%;justify-content:center;padding:15px 24px;">Envoyer le formulaire</button>
             <p style="font-size:0.78rem;color:var(--gris-moyen);margin-top:10px;text-align:center;">Réponse garantie sous 24h ouvrées.</p>
+            <p class="form-pending" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(22,22,22,0.06);border:1px solid rgba(22,22,22,0.16);color:#2d2d2d;text-align:center;"></p>
             <p class="form-success" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(46,125,50,0.08);border:1px solid rgba(46,125,50,0.22);color:#256029;text-align:center;"></p>
             <p class="form-error" style="display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(176,0,32,0.08);border:1px solid rgba(176,0,32,0.18);color:#8a1538;text-align:center;"></p>
           </div>
@@ -140,7 +190,7 @@
       </div>
 
       <!-- INFOS CONTACT -->
-      <div style="position:sticky;top:calc(var(--nav-h) + 32px);">
+      <div class="contact-sidebar" style="position:sticky;top:calc(var(--nav-h) + 32px);">
         <h3 style="margin-bottom:32px;">Nos coordonnées</h3>
 
         <div style="display:flex;flex-direction:column;gap:28px;">
