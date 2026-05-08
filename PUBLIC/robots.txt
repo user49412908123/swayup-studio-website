@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://swayupstudio.be/sitemap.xml
