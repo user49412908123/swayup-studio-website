@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://swayupstudio.be/sitemap.xml
+Sitemap: https://swayup-studio.com/sitemap.xml
