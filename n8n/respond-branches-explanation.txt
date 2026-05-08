@@ -1,0 +1,62 @@
+But: Explication claire des deux branches en sortie des nœuds "Respond to Webhook" (n8n)
+
+Contexte rapide
+- Dans vos workflows vous avez : Webhook -> Normalize -> IF (isError) -> Respond (erreur) / Respond (succès).
+- Le Webhook attend une réponse HTTP. Le nœud "Respond to Webhook" envoie la réponse au client (front-end) et termine généralement l'exécution sur cette branche.
+
+Pourquoi 2 branches ?
+- Branch 1 (condition TRUE / erreur) : quand la validation métier échoue (ex. pas d'email ou pas de message). On doit renvoyer une réponse claire au visiteur pour qu'il corrige et renvoie.
+- Branch 2 (condition FALSE / succès) : quand la validation passe. On renvoie une confirmation utilisateur (200) et idéalement on déclenche le traitement côté serveur (enregistrement, email, slack, CRM...).
+
+Que met-on dans chaque Respond ? (format attendu par le front existant)
+- Status code :
+  - Erreur métier / formulaire invalide → 422 (Unprocessable Entity)
+  - Succès → 200 (OK) — ou 202 si vous préférez accepter et traiter en arrière-plan
+  - Erreur serveur → 500
+- Body JSON recommandé (léger, lisible par le front) :
+  {
+    "status": "success" | "error",
+    "message": "Texte lisible pour l'utilisateur, en français, aimable et clair.",
+    "data": { "source": "contact" | "kit-arpenteur", "reference": "ct-abc123" }
+  }
+- Le front de votre site lit souvent payload.message et vérifie response.ok — gardez ces champs pour compatibilité.
+
+Doit-on continuer le reste du workflow après Respond ?
+- Important : quand vous utilisez Webhook with responseMode = "responseNode" (le cas fréquent), le workflow attend explicitement le nœud "Respond to Webhook" pour envoyer la réponse. Une fois que Respond s'exécute, l'exécution sur cette branche se termine. Vous ne pouvez pas (dans la même exécution) placer des nœuds après Respond et continuer : Respond est la fin logique pour l'appelant HTTP.
+
+Options pour continuer du travail serveur après avoir répondu :
+1) Répondre puis lancer un traitement indépendant :
+   - Avant Respond, envoyez la réponse (200/202). Ensuite, dans une autre branche (séparée) ou via un nœud différent, appelez un workflow enfant (Execute Workflow) ou un webhook interne pour traitement asynchrone. Mais attention : si Respond est déjà exécuté et termine l'exécution courante, vous devez déclencher le processing AVANT d'appeler Respond, ou utiliser la méthode "onReceived" décrite ci-dessous.
+2) Webhook: Response Mode = "onReceived" (réponse immédiate automatique) :
+   - Configurez le Webhook pour répondre dès la réception (status 200) puis laissez la suite du workflow s'exécuter en arrière-plan. C'est propre si vous voulez un ACK rapide côté client et un traitement différé.
+3) Traiter d'abord puis répondre :
+   - Faire toutes les tâches nécessaires (stockage, mail, slack), puis appeler Respond (plus lent côté client mais tout synchronisé). Utile si le client doit attendre une validation complète.
+4) Pattern recommandé (fiable + UX) :
+   - Valider & Normalizer
+   - IF erreur → Respond 422 aussitôt (stop)
+   - IF OK → (Option A) Respond 202 (Accepted) puis déclencher un webhook interne / child-workflow pour le traitement asynchrone
+               (Option B) Traiter (DB, mail) puis Respond 200 (synthèse complète)
+
+Exemples concrets pour vos workflows actuels
+- Erreur branch (Respond Contact Error / Respond Kit Error) : renvoyer JSON clair et code 422. Stop.
+- Succès branch (Respond Contact Success / Respond Kit Success) :
+  - Si vous voulez que l'utilisateur voie confirmation immédiate et que vous traitiez après : renvoyez 202 et ensuite lancez un appel HTTP interne (ou Execute Workflow) pour l'enregistrement et notifications.
+  - Si vous préférez garantir que les actions (enregistrement, email) ont bien eu lieu avant d'afficher la confirmation, faites ces actions avant le Respond et renvoyez 200.
+
+Bonnes pratiques additionnelles
+- Toujours renvoyer un objet JSON simple (status, message, data.reference)
+- Mettre une référence unique (ex: ct-..., kit-...) pour tracer la demande dans vos logs/imprimés
+- Loggez le rawPayload dans une base (ou Google Sheet, Airtable) avant de répondre si c'est critique
+- Si vous faites du traitement asynchrone : ajouter un nœud de retry / file d'attente (que ce soit via n8n Execute Workflow, HTTP Request, ou une queue externe) pour éviter perte de données
+- Pour la tolérance : Normalizer doit renvoyer isError boolean et responseCode (vous avez déjà ce pattern) — utilisez-le dans l'IF pour router proprement
+
+Résumé (que mettre à la fin de chaque branche)
+- Branch Erreur → nœud: Respond to Webhook (code 422, JSON d'erreur) → FIN
+- Branch Succès (choix A) → nœud: Respond to Webhook (200 ou 202, JSON succès) → FIN (si traitement fait avant)
+- Branch Succès (choix B, recommandé pour traitement asynchrone) → Avant Respond : trigger d'un job/background (Execute Workflow / HTTP interne) puis Respond (202) → FIN
+
+Si tu veux, je peux te fournir :
+- Un petit schéma texte décrivant le flux exact recommandé (synchronous vs asynchronous)
+- Un exemple d'exécution n8n pour la version asynchrone (webhook onReceived + traitement en sortie)
+
+Fin du fichier.
