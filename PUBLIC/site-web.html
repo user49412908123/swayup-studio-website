@@ -145,6 +145,67 @@
       </div>`;
   }
 
+  function setupCarouselAutoscroll(track) {
+    const carousel = track?.closest('.sw-realisations-carousel');
+    if (!carousel) return;
+
+    carousel.scrollLeft = 0;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let pointerDown = false;
+    let lastUserInteraction = Date.now();
+    const speed = 0.45;
+
+    const markInteraction = () => {
+      lastUserInteraction = Date.now();
+    };
+
+    const stopDragging = () => {
+      pointerDown = false;
+      carousel.classList.remove('is-dragging');
+      markInteraction();
+    };
+
+    carousel.addEventListener('pointerdown', () => {
+      pointerDown = true;
+      carousel.classList.add('is-dragging');
+      markInteraction();
+    });
+
+    carousel.addEventListener('pointerup', stopDragging);
+    carousel.addEventListener('pointercancel', stopDragging);
+    window.addEventListener('pointerup', stopDragging);
+
+    carousel.addEventListener('wheel', (event) => {
+      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+        carousel.scrollLeft += event.deltaY;
+        event.preventDefault();
+      }
+      markInteraction();
+    }, { passive: false });
+
+    carousel.addEventListener('touchstart', markInteraction, { passive: true });
+    carousel.addEventListener('mouseenter', markInteraction);
+    const tick = () => {
+      const resetPoint = track.scrollWidth / 2;
+      if (
+        resetPoint > 0 &&
+        !pointerDown &&
+        Date.now() - lastUserInteraction > 1200
+      ) {
+        carousel.scrollLeft += speed;
+        if (carousel.scrollLeft >= resetPoint) {
+          carousel.scrollLeft -= resetPoint;
+        }
+      }
+      window.requestAnimationFrame(tick);
+    };
+
+    window.requestAnimationFrame(tick);
+  }
+
   async function loadCarousel() {
     const track = document.getElementById('sw-realisations-track');
     if (!track) return;
@@ -159,6 +220,7 @@
       if (!posts.length) return;
       const cards   = posts.map(buildCard).join('');
       track.innerHTML = cards + cards; // duplicate for infinite loop
+      setupCarouselAutoscroll(track);
     } catch (e) {
       console.error('[Réalisations carousel]', e);
     }

@@ -545,3 +545,118 @@ h4 .orange,
     padding: 24px 20px;
   }
 }
+
+/* Index: keep kit content readable and move steps below on tight widths. */
+#kit .index-kit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+#kit .index-kit-main,
+#kit .index-kit-steps,
+#kit .index-kit-steps > div {
+  min-width: 0;
+}
+
+#kit .index-kit-steps span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+  #kit .index-kit-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+/* Service pages: black kit blocks centered and no clipping at the edges. */
+.sw-dark-section .container {
+  display: flex;
+  justify-content: center;
+}
+
+.sw-dark-box {
+  width: min(100%, 960px);
+  max-width: 100%;
+  padding: clamp(24px, 4vw, 64px);
+}
+
+.sw-dark-box .btn {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+
+.kit-section--centered > .container {
+  width: min(100%, var(--container));
+  padding-inline: clamp(10px, 2.4vw, 24px);
+}
+
+.kit-section--centered > .container > div {
+  max-width: min(100%, 760px);
+  padding-inline: clamp(2px, 0.8vw, 8px);
+}
+
+.kit-section--centered .btn {
+  max-width: 100%;
+  white-space: normal;
+}
+
+/* Site-web: stable carousel + manual horizontal scroll/swipe support. */
+.sw-realisations-carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px clamp(12px, 2.4vw, 24px) 24px;
+  cursor: grab;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(22, 22, 22, 0.3) transparent;
+}
+
+.sw-realisations-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.sw-realisations-carousel::-webkit-scrollbar-thumb {
+  background: rgba(22, 22, 22, 0.28);
+  border-radius: 999px;
+}
+
+.sw-realisations-carousel.is-dragging,
+.sw-realisations-carousel:active {
+  cursor: grabbing;
+}
+
+.sw-realisations-track {
+  animation: none !important;
+  min-width: 100%;
+  width: max-content;
+  gap: 20px;
+  padding-right: 24px;
+}
+
+.sw-realisation-card {
+  width: clamp(260px, 30vw, 320px);
+  scroll-snap-align: start;
+}
+
+@media (max-width: 640px) {
+  .sw-realisation-card {
+    width: min(84vw, 320px);
+  }
+}
+
+/* FAQ: keep closed titles dark (avoid browser default blue button text). */
+.faq-question,
+.faq-item:not(.open) .faq-question {
+  color: var(--noir) !important;
+}
+
+.faq-item.open .faq-question {
+  color: var(--orange) !important;
+}
