@@ -1,14 +1,188 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=./blog/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirection — Blog Swayup studio</title>
-  <link rel="canonical" href="https://swayup-studio.com/blog/" />
-  <script>window.location.replace('./blog/');</script>
+  <title>L'Observatoire — Blog Swayup studio</title>
+  <meta name="description" content="Conseils concrets sur le web, le design et les supports de communication par Swayup studio. Sans jargon, pour construire une présence claire et cohérente." />
+  <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 </head>
-<body>
-  <p>Redirection vers le blog : <a href="./blog/">./blog/</a></p>
+<body class="page-wrapper">
+
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo"><img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+    <div class="navbar__nav">
+      <a href="index.html">Accueil</a>
+      <div class="nav-dropdown-wrapper">
+        <button class="navbar__dropdown-trigger">Services &amp; Tarifs</button>
+        <div class="nav-dropdown">
+          <a href="site-web.html"><img src="assets/icon-siteweb.svg" alt="" class="nav-icon" />Site web</a>
+          <a href="identite-visuelle.html"><img src="assets/icon-identite-visuelle.svg" alt="" class="nav-icon" />Identité visuelle</a>
+          <a href="support-catalogue.html"><img src="assets/icon-graphisme.svg" alt="" class="nav-icon" />Supports physiques</a>
+          <a href="tarifs.html"><img src="assets/icon-kit-gratuit.svg" alt="" class="nav-icon" />Tarifs</a>
+        </div>
+      </div>
+      <a href="Réalisations.html">Réalisations</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+    <div class="navbar__right"><a href="contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
+    <button class="navbar__burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="navbar__mobile">
+  <a href="index.html">Accueil</a>
+  <button class="mobile-services-toggle" style="text-align:left;font-size:1.2rem;font-weight:500;padding:14px 0;border-bottom:1px solid #f0f0f0;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;">Services &amp; Tarifs ▾</button>
+  <div class="mobile-subnav" style="display:none;padding-left:16px;"><a href="site-web.html">Site web</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a></div>
+  <a href="Réalisations.html">Réalisations</a><a href="blog.html">Blog</a><a href="contact.html">Nous contacter</a>
+</div>
+
+<main>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="label" style="margin-bottom:16px;">L'Observatoire</p>
+    <h1>Insights sur le web,<br/>le design et le print</h1>
+    <p class="lead" style="color:rgba(251,251,251,0.7);margin-top:20px;max-width:600px;">Des conseils concrets, sans jargon, pour que votre présence en ligne travaille vraiment pour vous.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div id="blog-loading" style="text-align:center;padding:80px 0;color:var(--gris-moyen);font-size:0.95rem;">Chargement des articles…</div>
+    <div id="blog-error" style="display:none;text-align:center;padding:80px 0;">
+      <p style="color:var(--gris-moyen);">Impossible de charger les articles. Vérifiez votre connexion.</p>
+    </div>
+    <div id="blog-grid" class="blog-grid" style="display:none;"></div>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:var(--blanc);border-top:1px solid rgba(22,22,22,0.08);padding:64px 0 40px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
+      <div>
+        <img src="assets/logo-navbar-noir-complet.svg" alt="Swayup studio" style="height:32px;margin-bottom:16px;" />
+        <p style="font-size:0.88rem;color:var(--gris-moyen);max-width:280px;line-height:1.6;">Studio créatif web, identité visuelle et supports physiques pour PMEs et indépendants. Testez avant de payer.</p>
+        <div style="margin-top:20px;"><a href="kit-gratuit-de-l'arpenteur.html" class="btn btn-cta1 btn-sm">Kit Gratuit</a></div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Services</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+          <a href="site-web.html">Site web</a><a href="site-ecommerce.html">E-commerce</a><a href="identite-visuelle.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a><a href="tarifs.html">Tarifs</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Graphisme</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+          <a href="logo.html">Logo</a><a href="graphisme.html">Identité visuelle</a><a href="support-catalogue.html">Supports physiques</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:16px;">Contact</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;color:var(--gris-moyen);">
+          <span>contact@swayup-studio.com</span><a href="contact.html">Nous écrire</a><a href="Réalisations.html">Portfolio</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(22,22,22,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:var(--gris-moyen);">
+      <span>© 2025 Swayup studio — Bruxelles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/gsap.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const PROJECT_ID = '509u1k2c';
+  const DATASET    = 'production';
+  const API_BASE   = `https://${PROJECT_ID}.apicdn.sanity.io/v2021-10-21/data/query/${DATASET}`;
+
+  function sanityImg(ref, width) {
+    if (!ref) return '';
+    // ref = "image-{hash}-{w}x{h}-{ext}"
+    const [, id, dims, ext] = ref.split('-');
+    const w = width || 800;
+    return `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${id}-${dims}.${ext}?w=${w}&auto=format`;
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('fr-BE', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  function buildCard(post) {
+    const slug   = post.slug?.current || '';
+    const img    = sanityImg(post.mainImage?.asset?._ref, 720);
+    const date   = formatDate(post.publishedAt);
+    const rt     = post.readTime ? `${post.readTime} min` : '';
+    const excerpt = post.excerpt || '';
+
+    return `
+      <article class="blog-card">
+        <a href="article.html?slug=${encodeURIComponent(slug)}" class="blog-card__img-link">
+          <div class="blog-card__img-wrap">
+            ${img ? `<img src="${img}" alt="${post.title || ''}" class="blog-card__img" loading="lazy" />` : '<div class="blog-card__img-placeholder"></div>'}
+          </div>
+        </a>
+        <div class="blog-card__body">
+          <div class="blog-card__meta">
+            ${date ? `<time datetime="${post.publishedAt}">${date}</time>` : ''}
+            ${rt   ? `<span class="blog-card__read-time">${rt} de lecture</span>` : ''}
+          </div>
+          <h3 class="blog-card__title">${post.title || ''}</h3>
+          ${excerpt ? `<p class="blog-card__excerpt">${excerpt}</p>` : ''}
+          <a href="article.html?slug=${encodeURIComponent(slug)}" class="btn btn-cta4 btn-sm" style="margin-top:16px;">Lire l'article</a>
+        </div>
+      </article>
+    `;
+  }
+
+  async function loadPosts() {
+    const grid    = document.getElementById('blog-grid');
+    const loading = document.getElementById('blog-loading');
+    const error   = document.getElementById('blog-error');
+
+    const query = encodeURIComponent(
+      `*[_type == "post"] | order(publishedAt desc) {
+        _id, title, slug, mainImage, publishedAt, readTime, excerpt
+      }`
+    );
+
+    try {
+      const res  = await fetch(`${API_BASE}?query=${query}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      const posts = data.result || [];
+
+      loading.style.display = 'none';
+
+      if (posts.length === 0) {
+        grid.style.display = 'block';
+        grid.innerHTML = '<p style="color:var(--gris-moyen);text-align:center;padding:60px 0;">Les premiers articles arrivent bientôt.</p>';
+        return;
+      }
+
+      grid.innerHTML = posts.map(buildCard).join('');
+      grid.style.display = 'grid';
+    } catch (e) {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      console.error('[Blog] Sanity fetch error:', e);
+    }
+  }
+
+  loadPosts();
+})();
+</script>
+
 </body>
 </html>

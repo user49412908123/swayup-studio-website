@@ -15,16 +15,17 @@
         .map((segment) => segment.replace(/[^a-zA-Z0-9_-]/g, '-'))
         .join('/');
 
+      // Redirect to blog.html for now (preserve slug in hash)
       if (safeSlug) {
         const encodedSlug = safeSlug
           .split('/')
           .map((segment) => encodeURIComponent(segment))
           .join('/');
-        window.location.replace(`./blog/${encodedSlug}/`);
+        window.location.replace(`blog.html#${encodedSlug}`);
         return;
       }
 
-      window.location.replace('./blog/');
+      window.location.replace('blog.html');
     })();
   </script>
 </head>

@@ -346,14 +346,14 @@ function renderBlogRedirectHtml() {
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=./blog/" />
+  <meta http-equiv="refresh" content="0; url=./blog.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirection — Blog Swayup studio</title>
   <link rel="canonical" href="${siteUrl}/blog/" />
-  <script>window.location.replace('./blog/');</script>
+  <script>window.location.replace('./blog.html');</script>
 </head>
 <body>
-  <p>Redirection vers le blog : <a href="./blog/">./blog/</a></p>
+  <p>Redirection vers le blog : <a href="./blog.html">./blog.html</a></p>
 </body>
 </html>`;
 }
