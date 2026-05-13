@@ -56,6 +56,7 @@ jobs:
           fi
 
       - name: Validate Cloudflare configuration
+        if: ${{ vars.ENABLE_CLOUDFLARE_DEPLOY == 'true' }}
         run: |
           CF_PROJECT_NAME="${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}"
           if [ -z "$CF_PROJECT_NAME" ]; then
@@ -80,6 +81,7 @@ jobs:
           echo "CF_PROJECT_NAME=$CF_PROJECT_NAME" >> "$GITHUB_ENV"
 
       - name: Deploy to Cloudflare Pages
+        if: ${{ vars.ENABLE_CLOUDFLARE_DEPLOY == 'true' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
