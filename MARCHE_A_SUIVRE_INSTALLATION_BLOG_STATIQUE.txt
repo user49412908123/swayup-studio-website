@@ -1,0 +1,145 @@
+MARCHE A SUIVRE — ACTIVER LE SYSTEME BLOG STATIQUE (SANITY -> HTML -> SITEMAP -> CLOUDFLARE)
+
+Objectif
+Quand un article "post" est publie/modifie dans Sanity, le site doit:
+1) Generer une vraie page HTML statique dans PUBLIC/blog/<slug>/index.html
+2) Mettre a jour PUBLIC/sitemap.xml
+3) Deployer automatiquement sur Cloudflare Pages
+
+Ce qui est deja en place dans le repo
+- Script: scripts/generate-blog.js
+- Commande: npm run generate:blog
+- Workflow CI/CD: .github/workflows/generate-blog-static.yml
+
+==================================================================
+ETAPE 1 — AJOUTER LES SECRETS GITHUB (OBLIGATOIRE)
+==================================================================
+Ou aller:
+GitHub -> ton repo -> Settings -> Secrets and variables -> Actions -> New repository secret
+
+Ajouter EXACTEMENT ces secrets:
+1) SANITY_PROJECT_ID
+   Valeur: ton Project ID Sanity (ex: 509u1k2c)
+
+2) SANITY_DATASET
+   Valeur: production
+
+3) SANITY_API_VERSION
+   Valeur: 2023-01-01
+
+4) SANITY_READ_TOKEN
+   Valeur: token Sanity en lecture (recommande, requis si dataset prive)
+
+5) SITE_URL
+   Valeur: https://swayup-studio.com
+
+6) CLOUDFLARE_API_TOKEN
+   Valeur: token Cloudflare API pour Pages deploy
+
+7) CLOUDFLARE_ACCOUNT_ID
+   Valeur: Account ID Cloudflare
+
+8) CLOUDFLARE_PAGES_PROJECT_NAME
+   Valeur: nom exact du projet Cloudflare Pages
+
+==================================================================
+ETAPE 2 — CREER LE TOKEN DE LECTURE SANITY
+==================================================================
+Ou aller:
+Sanity Manage -> Project -> API -> Tokens -> Add API token
+
+Config conseillee:
+- Label: github-blog-static-read
+- Permissions: Viewer (read-only)
+
+Copier la valeur dans le secret GitHub: SANITY_READ_TOKEN
+
+==================================================================
+ETAPE 3 — CREER LE TOKEN GITHUB POUR LE WEBHOOK SANITY
+==================================================================
+Ou aller:
+GitHub -> Settings (compte) -> Developer settings -> Personal access tokens
+
+Creer un token (classic ou fine-grained) autorise a declencher un repository_dispatch
+sur ce repo.
+
+Usage:
+Ce token sert dans l'header Authorization du webhook Sanity (Etape 4).
+
+==================================================================
+ETAPE 4 — CONFIGURER LE WEBHOOK SANITY VERS GITHUB
+==================================================================
+Ou aller:
+Sanity Manage -> Project -> API -> Webhooks -> Create webhook
+
+Configuration:
+- Name: github-generate-blog-static
+- URL:
+  https://api.github.com/repos/<OWNER>/<REPO>/dispatches
+  (remplacer <OWNER> et <REPO>)
+- Method: POST
+- Headers:
+  Authorization: token <GITHUB_PAT>
+  Accept: application/vnd.github+json
+  Content-Type: application/json
+- Payload (JSON):
+  {
+    "event_type": "sanity-content-update"
+  }
+
+Conseil:
+Limiter le webhook aux changements de documents de type "post" si possible
+dans les filtres Sanity, pour eviter des executions inutiles.
+
+==================================================================
+ETAPE 5 — VERIFIER LE WORKFLOW GITHUB ACTIONS
+==================================================================
+Fichier concerne (deja cree):
+.github/workflows/generate-blog-static.yml
+
+Ce workflow:
+- installe les deps
+- lance npm run generate:blog
+- commit les fichiers generes (PUBLIC/blog, PUBLIC/blog.html, PUBLIC/sitemap.xml)
+- deploy sur Cloudflare Pages
+
+Declencheurs actifs:
+- push sur main
+- webhook Sanity via repository_dispatch (sanity-content-update)
+- lancement manuel depuis onglet Actions
+
+==================================================================
+ETAPE 6 — TEST MANUEL RAPIDE (RECOMMANDE)
+==================================================================
+1) GitHub -> Actions -> "Generate blog static pages" -> Run workflow
+2) Verifier que le job termine en succes
+3) Verifier dans le repo:
+   - PUBLIC/blog/index.html existe
+   - PUBLIC/sitemap.xml contient /blog/
+4) Verifier sur le site deploye:
+   - https://swayup-studio.com/blog/
+
+Note:
+S'il n'y a aucun article Sanity, c'est normal: le blog affiche un etat vide propre.
+
+==================================================================
+ETAPE 7 — TEST REEL AVEC UN ARTICLE SANITY
+==================================================================
+1) Creer/publier un document "post" dans Sanity (avec slug)
+2) Attendre le trigger webhook + execution workflow
+3) Verifier:
+   - URL article generee: /blog/<slug>/
+   - sitemap contient cette URL
+   - page accessible en ligne apres deploy
+
+==================================================================
+CHECKLIST "SI CA NE MARCHE PAS"
+==================================================================
+1) Secret manquant ou faute de frappe (nom exact des secrets obligatoire)
+2) SANITY_READ_TOKEN invalide ou sans droits de lecture
+3) Webhook Sanity mal configure (URL/headers/body)
+4) GITHUB_PAT sans permissions suffisantes
+5) CLOUDFLARE_* invalides (token/account/project)
+6) Workflow non execute sur la bonne branche (main)
+
+Fin: une fois ces etapes faites, le systeme est operationnel et automatise.

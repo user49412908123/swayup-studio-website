@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "generate:blog": "node scripts/generate-blog.js"
+  },
   "dependencies": {
+    "@portabletext/to-html": "^2.0.17",
     "openai": "^6.35.0"
   }
 }

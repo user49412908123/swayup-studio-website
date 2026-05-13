@@ -1,0 +1,60 @@
+SYSTEME BLOG STATIQUE — SWAYUP STUDIO
+
+Ce qui a ete cree
+1) Script de generation: scripts/generate-blog.js
+   - Lit les articles Sanity (type "post")
+   - Convertit le Portable Text en HTML
+   - Genere une vraie page statique par article:
+     PUBLIC/blog/<slug>/index.html
+   - Genere l'index du blog:
+     PUBLIC/blog/index.html
+   - Regenerate:
+     PUBLIC/sitemap.xml
+   - Met aussi un redirect PUBLIC/blog.html -> /blog/
+
+2) Commande npm
+   - npm run generate:blog
+
+3) Workflow GitHub Actions
+   - Fichier: .github/workflows/generate-blog-static.yml
+   - Declencheurs:
+     - push sur main
+     - repository_dispatch (event: sanity-content-update)
+     - manuel (workflow_dispatch)
+   - Actions:
+     - npm ci
+     - npm run generate:blog
+     - commit auto des fichiers generes
+     - deploy Cloudflare Pages
+
+Secrets GitHub requis
+- SANITY_PROJECT_ID
+- SANITY_DATASET
+- SANITY_API_VERSION (ex: 2023-01-01)
+- SANITY_READ_TOKEN (recommande; requis si dataset prive)
+- SITE_URL (ex: https://swayup-studio.com)
+- CLOUDFLARE_API_TOKEN
+- CLOUDFLARE_ACCOUNT_ID
+- CLOUDFLARE_PAGES_PROJECT_NAME
+
+Webhook Sanity -> GitHub (recommande)
+Endpoint:
+https://api.github.com/repos/<OWNER>/<REPO>/dispatches
+
+Method: POST
+Headers:
+- Authorization: token <GITHUB_PAT>
+- Accept: application/vnd.github+json
+- Content-Type: application/json
+
+Body:
+{
+  "event_type": "sanity-content-update"
+}
+
+Resultat attendu
+- Meme avec 0 article actuellement: le systeme tourne sans erreur et genere un blog vide propre.
+- Des qu'un article est publie dans Sanity + webhook envoye:
+  - generation HTML statique du nouvel article
+  - mise a jour sitemap
+  - deploiement Cloudflare Pages automatique

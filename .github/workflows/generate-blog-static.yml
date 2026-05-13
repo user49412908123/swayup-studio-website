@@ -1,0 +1,63 @@
+name: Generate blog static pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/generate-blog.js
+      - package.json
+      - package-lock.json
+      - PUBLIC/**
+      - .github/workflows/generate-blog-static.yml
+  repository_dispatch:
+    types:
+      - sanity-content-update
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate static blog and sitemap
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_VERSION: ${{ secrets.SANITY_API_VERSION }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: npm run generate:blog
+
+      - name: Commit generated files
+        run: |
+          if [ -n "$(git status --porcelain PUBLIC/blog PUBLIC/blog.html PUBLIC/sitemap.xml)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add PUBLIC/blog PUBLIC/blog.html PUBLIC/sitemap.xml
+            git commit -m "chore: generate static blog [skip ci]"
+            git push
+          else
+            echo "No generated changes to commit."
+          fi
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy PUBLIC --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
