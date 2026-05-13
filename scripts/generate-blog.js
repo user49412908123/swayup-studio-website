@@ -220,22 +220,22 @@ function renderArticleHtml(post) {
   <meta property="og:url" content="${articleUrl}" />
   ${ogImageTag}
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="icon" href="../../favicon.ico" />
+  <link rel="shortcut icon" href="../../favicon.ico" />
 </head>
 <body class="page-wrapper">
   <nav class="navbar">
     <div class="navbar__inner">
-      <a href="/index.html" class="navbar__logo"><img src="/assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+      <a href="../../index.html" class="navbar__logo"><img src="../../assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
       <div class="navbar__nav">
-        <a href="/index.html">Accueil</a>
-        <a href="/site-web.html">Site web</a>
-        <a href="/identite-visuelle.html">Identité visuelle</a>
-        <a href="/Réalisations.html">Réalisations</a>
-        <a href="/blog/" class="active">Blog</a>
+        <a href="../../index.html">Accueil</a>
+        <a href="../../site-web.html">Site web</a>
+        <a href="../../identite-visuelle.html">Identité visuelle</a>
+        <a href="../../Réalisations.html">Réalisations</a>
+        <a href="../" class="active">Blog</a>
       </div>
-      <div class="navbar__right"><a href="/contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
+      <div class="navbar__right"><a href="../../contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
     </div>
   </nav>
 
@@ -243,7 +243,7 @@ function renderArticleHtml(post) {
     ${imageBlock}
     <section class="section">
       <div class="container" style="max-width:780px;">
-        <a href="/blog/" class="article-back">← Retour au blog</a>
+        <a href="../" class="article-back">← Retour au blog</a>
         <div class="article-meta">${escapeHtml(metaLine)}</div>
         <h1 class="article-title">${title}</h1>
         <div class="article-body">
@@ -253,7 +253,7 @@ function renderArticleHtml(post) {
     </section>
   </main>
 
-  <script src="/js/main.js"></script>
+  <script src="../../js/main.js"></script>
 </body>
 </html>`;
 }
@@ -261,7 +261,7 @@ function renderArticleHtml(post) {
 function renderBlogIndexHtml(posts) {
   const cards = posts
     .map((post) => {
-      const href = `/blog/${encodeURIComponent(post.slug)}/`;
+      const href = `./${encodeURIComponent(post.slug)}/`;
       const dateLabel = formatDate(post.publishedAt);
       const readTime = post.readTime ? `${post.readTime} min` : '';
       const imageSrc = getImageUrl(post.mainImageRef, 720);
@@ -299,22 +299,22 @@ function renderBlogIndexHtml(posts) {
   <title>L'Observatoire — Blog Swayup studio</title>
   <meta name="description" content="Conseils concrets sur le web, le design et les supports de communication par Swayup studio." />
   <link rel="canonical" href="${siteUrl}/blog/" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="../favicon.ico" />
+  <link rel="shortcut icon" href="../favicon.ico" />
 </head>
 <body class="page-wrapper">
   <nav class="navbar">
     <div class="navbar__inner">
-      <a href="/index.html" class="navbar__logo"><img src="/assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
+      <a href="../index.html" class="navbar__logo"><img src="../assets/logo-navbar-noir-complet.svg" alt="Swayup studio" /></a>
       <div class="navbar__nav">
-        <a href="/index.html">Accueil</a>
-        <a href="/site-web.html">Site web</a>
-        <a href="/identite-visuelle.html">Identité visuelle</a>
-        <a href="/Réalisations.html">Réalisations</a>
-        <a href="/blog/" class="active">Blog</a>
+        <a href="../index.html">Accueil</a>
+        <a href="../site-web.html">Site web</a>
+        <a href="../identite-visuelle.html">Identité visuelle</a>
+        <a href="../Réalisations.html">Réalisations</a>
+        <a href="./" class="active">Blog</a>
       </div>
-      <div class="navbar__right"><a href="/contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
+      <div class="navbar__right"><a href="../contact.html" class="btn btn-cta3 btn-sm">Nous contacter</a></div>
     </div>
   </nav>
 
@@ -336,7 +336,7 @@ function renderBlogIndexHtml(posts) {
     </section>
   </main>
 
-  <script src="/js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>`;
 }
@@ -346,14 +346,14 @@ function renderBlogRedirectHtml() {
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=/blog/" />
+  <meta http-equiv="refresh" content="0; url=./blog/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirection — Blog Swayup studio</title>
   <link rel="canonical" href="${siteUrl}/blog/" />
-  <script>window.location.replace('/blog/');</script>
+  <script>window.location.replace('./blog/');</script>
 </head>
 <body>
-  <p>Redirection vers le blog : <a href="/blog/">/blog/</a></p>
+  <p>Redirection vers le blog : <a href="./blog/">./blog/</a></p>
 </body>
 </html>`;
 }

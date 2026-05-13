@@ -37,6 +37,10 @@ Secrets GitHub requis
 - CLOUDFLARE_ACCOUNT_ID
 - CLOUDFLARE_PAGES_PROJECT_NAME
 
+Note token Cloudflare:
+- Si le deploy renvoie "Authentication error [code: 10000]", le token est
+  invalide/expiré ou sans droits suffisants (Cloudflare Pages: Edit minimum).
+
 Webhook Sanity -> GitHub (recommande)
 Endpoint:
 https://api.github.com/repos/<OWNER>/<REPO>/dispatches

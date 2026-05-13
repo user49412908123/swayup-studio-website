@@ -55,9 +55,33 @@ jobs:
             echo "No generated changes to commit."
           fi
 
+      - name: Validate Cloudflare configuration
+        run: |
+          CF_PROJECT_NAME="${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}"
+          if [ -z "$CF_PROJECT_NAME" ]; then
+            CF_PROJECT_NAME="${{ secrets.CLOUDFLARE_PROJECT_NAME }}"
+          fi
+
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "::error::Missing GitHub secret: CLOUDFLARE_API_TOKEN"
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
+            echo "::error::Missing GitHub secret: CLOUDFLARE_ACCOUNT_ID"
+            exit 1
+          fi
+
+          if [ -z "$CF_PROJECT_NAME" ]; then
+            echo "::error::Missing GitHub secret: CLOUDFLARE_PAGES_PROJECT_NAME (or CLOUDFLARE_PROJECT_NAME)"
+            exit 1
+          fi
+
+          echo "CF_PROJECT_NAME=$CF_PROJECT_NAME" >> "$GITHUB_ENV"
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy PUBLIC --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          command: pages deploy PUBLIC --project-name=${{ env.CF_PROJECT_NAME }}

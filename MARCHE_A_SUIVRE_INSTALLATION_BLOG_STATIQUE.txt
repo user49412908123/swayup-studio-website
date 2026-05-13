@@ -35,6 +35,10 @@ Ajouter EXACTEMENT ces secrets:
 
 6) CLOUDFLARE_API_TOKEN
    Valeur: token Cloudflare API pour Pages deploy
+   Permissions minimales conseillees:
+   - Account > Cloudflare Pages: Edit
+   - Account > Account Settings: Read
+   - Zone > Zone: Read (si demande par ton setup)
 
 7) CLOUDFLARE_ACCOUNT_ID
    Valeur: Account ID Cloudflare
@@ -140,6 +144,8 @@ CHECKLIST "SI CA NE MARCHE PAS"
 3) Webhook Sanity mal configure (URL/headers/body)
 4) GITHUB_PAT sans permissions suffisantes
 5) CLOUDFLARE_* invalides (token/account/project)
+   - Dans les logs, si tu vois "Authentication error [code: 10000]",
+     le token est invalide/expiré ou n'a pas les droits requis.
 6) Workflow non execute sur la bonne branche (main)
 
 Fin: une fois ces etapes faites, le systeme est operationnel et automatise.
