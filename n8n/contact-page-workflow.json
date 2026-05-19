@@ -1,0 +1,176 @@
+{
+  "name": "Swayup - Formulaire Contact",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "swayup/contact",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-contact",
+      "name": "Webhook Contact",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"message\":\"ok\"}",
+        "options": {}
+      },
+      "id": "respond-ok-contact",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = (items?.[0]?.json && typeof items[0].json === 'object') ? items[0].json : {};\nconst asText = (value) => {\n  if (value === null || value === undefined) return '';\n  if (typeof value === 'string') return value.trim();\n  return String(value).trim();\n};\n\nconst normalized = {\n  source: 'contact-page',\n  prenom: asText(input.prenom),\n  nom: asText(input.nom),\n  email: asText(input.email).toLowerCase(),\n  telephone: asText(input.telephone),\n  service: asText(input.service),\n  budget: asText(input.budget),\n  message: asText(input.message),\n  receivedAt: new Date().toISOString()\n};\n\nconst hasMinimalData = Boolean(normalized.prenom && normalized.nom && normalized.email && normalized.message);\n\nreturn [{\n  json: {\n    normalized,\n    isValid: hasMinimalData,\n    errors: hasMinimalData ? [] : ['missing_required_fields']\n  }\n}];"
+      },
+      "id": "format-safe-contact",
+      "name": "Format Safe Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.isValid}}",
+              "operation": "true"
+            }
+          ]
+        }
+      },
+      "id": "filtre-validite-contact",
+      "name": "Filtre Validite",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "payload-valide-contact",
+      "name": "Payload Valide",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "invalid_payload"
+            },
+            {
+              "name": "reason",
+              "value": "missing_required_fields"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "payload-invalide-contact",
+      "name": "Payload Invalide",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Contact": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond OK": {
+      "main": [
+        [
+          {
+            "node": "Format Safe Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Safe Payload": {
+      "main": [
+        [
+          {
+            "node": "Filtre Validite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtre Validite": {
+      "main": [
+        [
+          {
+            "node": "Payload Valide",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Payload Invalide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

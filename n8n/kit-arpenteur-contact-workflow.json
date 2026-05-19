@@ -1,0 +1,176 @@
+{
+  "name": "Swayup - Formulaire Kit Arpenteur",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "swayup/kit-arpenteur",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-kit-arpenteur",
+      "name": "Webhook Kit Arpenteur",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"message\":\"ok\"}",
+        "options": {}
+      },
+      "id": "respond-ok-kit-arpenteur",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = (items?.[0]?.json && typeof items[0].json === 'object') ? items[0].json : {};\nconst asText = (value) => {\n  if (value === null || value === undefined) return '';\n  if (typeof value === 'string') return value.trim();\n  return String(value).trim();\n};\n\nconst normalized = {\n  source: 'kit-arpenteur',\n  prenom: asText(input.prenom),\n  nom: asText(input.nom),\n  email: asText(input.email).toLowerCase(),\n  telephone: asText(input.telephone),\n  entreprise: asText(input.entreprise),\n  secteur: asText(input.secteur),\n  site_actuel: asText(input.site_actuel),\n  besoins: asText(input.besoins),\n  delai: asText(input.delai),\n  message: asText(input.message),\n  receivedAt: new Date().toISOString()\n};\n\nconst hasMinimalData = Boolean(normalized.prenom && normalized.nom && normalized.email && normalized.besoins);\n\nreturn [{\n  json: {\n    normalized,\n    isValid: hasMinimalData,\n    errors: hasMinimalData ? [] : ['missing_required_fields']\n  }\n}];"
+      },
+      "id": "format-safe-kit-arpenteur",
+      "name": "Format Safe Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.isValid}}",
+              "operation": "true"
+            }
+          ]
+        }
+      },
+      "id": "filtre-validite-kit-arpenteur",
+      "name": "Filtre Validite",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "payload-valide-kit-arpenteur",
+      "name": "Payload Valide",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "invalid_payload"
+            },
+            {
+              "name": "reason",
+              "value": "missing_required_fields"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "payload-invalide-kit-arpenteur",
+      "name": "Payload Invalide",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Kit Arpenteur": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond OK": {
+      "main": [
+        [
+          {
+            "node": "Format Safe Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Safe Payload": {
+      "main": [
+        [
+          {
+            "node": "Filtre Validite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtre Validite": {
+      "main": [
+        [
+          {
+            "node": "Payload Valide",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Payload Invalide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}
